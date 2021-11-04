@@ -80,6 +80,7 @@ int	shell(char **commands, char **envp)
 			free(bin);
 		}
 		perror("execve");
+		exit(127);
 	}
 	else if (pid > 0)
 	{
@@ -91,13 +92,31 @@ int	shell(char **commands, char **envp)
 	return (1);
 }
 
+void	ft_action(int sig)
+{
+    (void)sig;
+    printf("\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+void	signal_proc(void)
+{
+    signal(SIGINT, ft_action);
+    signal(SIGQUIT, SIG_IGN);
+}
+
 int	main(int a, char **argv, char **env)
 {
 	char		*line;
 
+	signal_proc();
 	while (1)
 	{
 		line = readline("\033[36mminishell $ \033[0m");
+		if (!line)
+			exit(1);
 		if (!ft_strcmp(line, "exit"))
 			break ;
 		if (shell(ft_split_comma(line, ' '), env) == 0)
