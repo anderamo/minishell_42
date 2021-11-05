@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/10/05 09:49:41 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/05 12:58:27 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,24 @@ char	*get_bin_path(char **envp, char *command)
 	return (NULL);
 }
 
+void	write_pwd(char **envp)
+{
+	int		i;
+	char	**split;
+
+	i = 0;
+	while (1)
+	{
+		split = ft_split(envp[i], '=');
+		if (!strcmp(split[0], "PWD"))
+			break ;
+		ft_frlloc(split);
+		i++;
+	}
+	ft_printf("\033[36m%s", split[1]);
+	ft_frlloc(split);
+}
+
 int	shell(char **commands, char **envp)
 {
 	char	*bin;
@@ -76,6 +94,7 @@ int	shell(char **commands, char **envp)
 		bin = get_bin_path(envp, commands[0]);
 		if (execve(bin, commands, envp) == -1)
 		{
+			perror("execve");
 			ft_frlloc(commands);
 			free(bin);
 		}
@@ -117,12 +136,19 @@ int	main(int a, char **argv, char **env)
 		line = readline("\033[36mminishell $ \033[0m");
 		if (!line)
 			exit(1);
+		write_pwd(env);
+		line = readline(" > \033[0m");
+		rl_on_new_line();
 		if (!ft_strcmp(line, "exit"))
 			break ;
-		if (shell(ft_split_comma(line, ' '), env) == 0)
+		if (ft_strcmp(line, ""))
 		{
-			ft_printf("Error: Shell error");
-			break ;
+			add_history(line);
+			if (shell(ft_split_comma(line, ' '), env) == 0)
+			{
+				ft_printf("Error: Shell error");
+				break ;
+			}
 		}
 		free(line);
 	}
