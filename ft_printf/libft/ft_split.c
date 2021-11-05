@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:02:38 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/10/05 09:02:19 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/05 11:06:54 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_create_fill_array(char const *s, char c,
 	array_row = 0;
 	while (array_size > array_row)
 	{
-		while (s[i] != c)
+		while (s[i] != c && s[i])
 		{
 			i++;
 			string_size++;
