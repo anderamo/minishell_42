@@ -1,12 +1,12 @@
 NAME = minishell
 
-MANDATORY	=	main.c
+MANDATORY	=	main.c signal.c builtins.c
 
 OBJ_1 = $(MANDATORY:.c=.o)
 
 CC = gcc
 
-INC_1 = -I./includes
+INC_1 = -I./includes -L./lib
 
 #FLAGS	= -Wall -Wextra -Werror
 

@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/05 12:58:27 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/07 15:46:00 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,17 @@ void	write_pwd(char **envp)
 	ft_frlloc(split);
 }
 
+void	set_path()
+{
+	char    path[1024];
+
+    if (!getcwd(path, 1024))
+        perror("getcwd");
+	else
+		g_mini.path = path;
+	printf("%s",g_mini.path);
+}
+
 int	shell(char **commands, char **envp)
 {
 	char	*bin;
@@ -97,9 +108,8 @@ int	shell(char **commands, char **envp)
 			perror("execve");
 			ft_frlloc(commands);
 			free(bin);
+			exit(127);
 		}
-		perror("execve");
-		exit(127);
 	}
 	else if (pid > 0)
 	{
@@ -111,43 +121,40 @@ int	shell(char **commands, char **envp)
 	return (1);
 }
 
-void	ft_action(int sig)
+int	init_env(char **env)
 {
-    (void)sig;
-    printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
+	int	i;
 
-void	signal_proc(void)
-{
-    signal(SIGINT, ft_action);
-    signal(SIGQUIT, SIG_IGN);
+	if (!env)
+		return (0);
+	g_mini.env = (char **)malloc(sizeof(char *) * ft_array_size(env) + 2);
 }
 
 int	main(int a, char **argv, char **env)
 {
 	char		*line;
 
+	init_env(env);;
+//	set_path();
 	signal_proc();
 	while (1)
 	{
-		line = readline("\033[36mminishell $ \033[0m");
-		if (!line)
-			exit(1);
 		write_pwd(env);
 		line = readline(" > \033[0m");
-		rl_on_new_line();
+		if (!line)
+			exit(1);
 		if (!ft_strcmp(line, "exit"))
 			break ;
-		if (ft_strcmp(line, ""))
+		if (!builtins(line))
 		{
-			add_history(line);
-			if (shell(ft_split_comma(line, ' '), env) == 0)
+			if (ft_strcmp(line, ""))
 			{
-				ft_printf("Error: Shell error");
-				break ;
+				add_history(line);
+				if (shell(ft_split_comma(line, ' '), env) == 0)
+				{
+					ft_printf("Error: Shell error");
+					break ;
+				}
 			}
 		}
 		free(line);
