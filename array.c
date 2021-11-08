@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   array.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migarcia <migarcia@student.42urduli>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 15:54:38 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/07 15:55:38 by migarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
 
 size_t	ft_array_size(char **arr)
@@ -26,7 +38,7 @@ char    **ft_frlloc(char **tab)
     return (NULL);
 }
 
-void	ft_frlloc_n(void **tab, size_t n)
+void	ft_frlloc_n(char **tab, size_t n)
 {
 	size_t	i;
 

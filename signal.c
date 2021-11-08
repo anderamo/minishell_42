@@ -6,7 +6,7 @@
 /*   By: migarcia <migarcia@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 15:07:32 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/05 15:13:15 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/07 15:53:28 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_action(int sig)
 {
 	(void)sig;
 	printf("\n");
-	write_pwd(g_mini.enva);
+	write_pwd(g_mini.env);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

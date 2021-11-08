@@ -6,25 +6,11 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/07 15:46:00 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/07 16:46:30 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-char	**ft_frlloc(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (NULL);
-}
 
 int	get_path(char **envp)
 {
@@ -71,27 +57,16 @@ void	write_pwd(char **envp)
 	char	**split;
 
 	i = 0;
-	while (1)
+	while (g_mini.env[i])
 	{
-		split = ft_split(envp[i], '=');
+		split = ft_split(g_mini.env[i], '=');
 		if (!strcmp(split[0], "PWD"))
-			break ;
+			break;
 		ft_frlloc(split);
 		i++;
 	}
 	ft_printf("\033[36m%s", split[1]);
 	ft_frlloc(split);
-}
-
-void	set_path()
-{
-	char    path[1024];
-
-    if (!getcwd(path, 1024))
-        perror("getcwd");
-	else
-		g_mini.path = path;
-	printf("%s",g_mini.path);
 }
 
 int	shell(char **commands, char **envp)
@@ -121,21 +96,11 @@ int	shell(char **commands, char **envp)
 	return (1);
 }
 
-int	init_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return (0);
-	g_mini.env = (char **)malloc(sizeof(char *) * ft_array_size(env) + 2);
-}
-
 int	main(int a, char **argv, char **env)
 {
 	char		*line;
 
-	init_env(env);;
-//	set_path();
+	init_env(env);
 	signal_proc();
 	while (1)
 	{

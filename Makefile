@@ -1,6 +1,6 @@
 NAME = minishell
 
-MANDATORY	=	main.c signal.c builtins.c
+MANDATORY	=	main.c signal.c builtins.c env.c array.c builtin_env.c
 
 OBJ_1 = $(MANDATORY:.c=.o)
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migarcia <migarcia@student.42urduli>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/07 15:54:55 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/07 18:47:46 by migarcia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
 
 char    *ft_strjoin3(char *a, char *b, char *c)
@@ -21,7 +33,7 @@ char    *ft_strjoin3(char *a, char *b, char *c)
     return (dest);
 }
 
-char	**add_new_variable(t_mini g_mini, char *name, char *value)
+char	**add_new_variable(char *name, char *value)
 {
 	size_t	i;
 	char	**new_env;
@@ -35,25 +47,25 @@ char	**add_new_variable(t_mini g_mini, char *name, char *value)
 		new_env[i] = ft_strdup(g_mini.env[i]);
 		if (!new_env[i])
 		{
-			ft_frlloc_n((void **)new_env, i);
+			ft_frlloc_n(new_env, i);
 			return (NULL);
 		}
 	}
 	new_env[i] = ft_strjoin3(name, "=", value);
-	if (!new_env[++i])
+	if (!new_env[i++])
 	{
-		ft_frlloc_n((void **)new_env, i);
+		ft_frlloc_n(new_env, i);
 		return (NULL);
 	}
 	new_env[i] = NULL;
 	return (new_env);
 }
 
-int	add_new_env(t_mini g_mini, char *name, char *value)
+int	add_new_env(char *name, char *value)
 {
 	char	**new_env;
 
-	new_env = add_new_variable(g_mini, name, value);
+	new_env = add_new_variable(name, value);
 	if (!new_env)
 		return (1);
 	ft_frlloc(g_mini.env);
@@ -61,7 +73,7 @@ int	add_new_env(t_mini g_mini, char *name, char *value)
 	return (0);
 }
 
-int	ft_setenv(t_mini g_mini, char *name, char *value, int replace)
+int	ft_setenv(char *name, char *value, int replace)
 {
 	int		i;
 	char	*temp;
@@ -84,10 +96,22 @@ int	ft_setenv(t_mini g_mini, char *name, char *value, int replace)
 			}
 		}
 	}
-	return (add_new_env(g_mini, name, value));
+	return (add_new_env(name, value));
 }
 
-size_t  ft_len_to_char(char *str, char c)
+void	ft_print_env(void)
+{
+	int	i;
+
+	i = 0;
+	while (g_mini.env[i])
+	{
+		printf("---%s\n", g_mini.env[i]);
+		i++;
+	}
+}
+
+/*size_t  ft_len_to_char(char *str, char c)
 {
     int i;
 
@@ -97,7 +121,8 @@ size_t  ft_len_to_char(char *str, char c)
     return (i);
 }
 
-char	*ft_getenv(t_mini g_mini, char *name)
+
+char	*ft_getenv(char *name)
 {
 	int		i;
 	int		j;
@@ -113,15 +138,15 @@ char	*ft_getenv(t_mini g_mini, char *name)
 		//	&& ft_strncmp(g_mini.env[i], name, len) == 0)
 		//{
 		//	j = 0;
-			/*while (g_mini.env[i][j] && g_mini.env[i][j] != '=')
+			while (g_mini.env[i][j] && g_mini.env[i][j] != '=')
 			{
 				printf("%c", g_mini.env[i][j]);
 				j++;
 			}
-			printf("\n");*/
+			printf("\n");
 			//return (&g_mini.env[i][++j]);
 		//}
 	//	i++;
 	//}
 	return (NULL);
-}
+}*/
