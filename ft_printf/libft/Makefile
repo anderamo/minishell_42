@@ -26,6 +26,7 @@ SRCS	=	ft_strlen.c\
 			ft_strdup.c\
 			ft_substr.c\
 			ft_strjoin.c\
+			ft_strjoin_space.c\
 			ft_chrjoin.c\
 			ft_strtrim.c\
 			ft_split.c\
@@ -38,7 +39,8 @@ SRCS	=	ft_strlen.c\
 			ft_putnbr_fd.c\
 			ft_itoa_unsint.c\
 			ft_str_tolower.c\
-			ft_strcmp.c
+			ft_strcmp.c\
+			ft_isspace.c
 
 SRCS_1	=	ft_lstnew.c\
 			ft_lstadd_front.c\

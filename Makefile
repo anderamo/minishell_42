@@ -1,23 +1,27 @@
 NAME = minishell
 
-MANDATORY	=	main.c signal.c builtins.c env.c array.c builtin_env.c
-
-OBJ_1 = $(MANDATORY:.c=.o)
+MANDATORY	=	main.c\
+				src/signal.c\
+				src/builtins.c\
+				src/env.c\
+				src/array.c\
+				src/builtin_env.c\
+				src/builtins_no_pipe.c
 
 CC = gcc
 
-INC_1 = -I./includes -L./lib
+INC_1 = -I./includes/ -L./readline/lib -I./readline/include
 
-#FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror
 
 SANITIZE	= -fsanitize=address -g3
 
-all: $(NAME)
-
-$(NAME): $(OBJ_1)
+$(NAME): 
 		$(MAKE) -C ./ft_printf
 		cp ft_printf/libftprintf.a .
 		$(CC) $(FLAGS) $(INC_1) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
+
+all: $(NAME)
 
 s:
 	$(CC) $(INC_1) $(MANDATORY) $(SANITIZE) -lreadline libftprintf.a -o $(NAME)

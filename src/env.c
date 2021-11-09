@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 13:15:23 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/07 17:30:58 by aamorin-         ###   ########.fr       */
+/*   Created: 2021/11/07 15:54:45 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/08 09:23:15 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
+#include "minishell.h"
+
+int	init_env(char **env)
 {
-	if (!s1)
+	int		i;
+
+	if (!env || !(*env))
 		return (0);
-	while (*s1 == *s2++)
-		if (*s1++ == 0)
+	g_mini.env = (char **)malloc(sizeof(char *) * (ft_array_size(env) + 2));
+	if (!(g_mini.env))
+		return (0);
+	i = 0;
+	while (env[i])
+	{
+		g_mini.env[i] = ft_strdup(env[i]);
+		if (!g_mini.env[i])
+		{
+			ft_frlloc_n(g_mini.env, i);
 			return (0);
-	return (*(unsigned char *)s1 - *(unsigned char *)--s2);
+		}
+		i++;
+	}
+	g_mini.env[i] = NULL;
+	return (1);
 }

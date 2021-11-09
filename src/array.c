@@ -1,21 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 13:15:23 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/07 17:30:58 by aamorin-         ###   ########.fr       */
+/*   Created: 2021/11/07 15:54:38 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/08 09:20:59 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
+#include "minishell.h"
+
+size_t	ft_array_size(char **arr)
 {
-	if (!s1)
+	int		size;
+
+	if (!arr || !(*arr))
 		return (0);
-	while (*s1 == *s2++)
-		if (*s1++ == 0)
-			return (0);
-	return (*(unsigned char *)s1 - *(unsigned char *)--s2);
+	size = 0;
+	while (arr[size])
+		size++;
+	return (size);
+}
+
+char	**ft_frlloc(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
+}
+
+void	ft_frlloc_n(char **tab, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+		free(tab[i++]);
+	free(tab);
 }

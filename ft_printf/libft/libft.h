@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/10/05 09:13:39 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/09 12:51:35 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				ft_isalpha(int str);
 int				ft_isprint(int str);
 int				ft_isdigit(int str);
 int				ft_isalnum(int str);
+int				ft_isspace(char c);
 int				ft_toupper(int str);
 int				ft_tolower(int str);
 char			*ft_str_tolower(char	*str);
@@ -51,6 +52,7 @@ void			*ft_calloc(size_t nitems, size_t size);
 char			*ft_strdup(const char *src);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin_space(char const *s1, char const *s2);
 char			*ft_chrjoin(char const *s1, char chr);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);

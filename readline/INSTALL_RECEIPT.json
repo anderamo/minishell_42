@@ -1,0 +1,47 @@
+{
+  "homebrew_version": "2.6.0-157-g3fc8c70",
+  "used_options": [
+
+  ],
+  "unused_options": [
+
+  ],
+  "built_as_bottle": true,
+  "poured_from_bottle": true,
+  "installed_as_dependency": false,
+  "installed_on_request": true,
+  "changed_files": [
+    "INSTALL_RECEIPT.json",
+    "lib/pkgconfig/readline.pc",
+    "share/doc/readline/INSTALL",
+    "share/readline/rl-fgets.c"
+  ],
+  "time": 1636047166,
+  "source_modified_time": 1605728412,
+  "compiler": "clang",
+  "aliases": [
+
+  ],
+  "runtime_dependencies": [
+
+  ],
+  "source": {
+    "spec": "stable",
+    "versions": {
+      "stable": "8.1",
+      "head": null,
+      "version_scheme": 0
+    },
+    "path": "/System/Volumes/Data/sgoinfre/goinfre/Perso/aamorin-/homebrew/Library/Taps/homebrew/homebrew-core/Formula/readline.rb",
+    "tap_git_head": "0c6c46d627f6d4feda598b80d378e7762e6019bd",
+    "tap": "homebrew/core"
+  },
+  "arch": "x86_64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 10.15.7",
+    "cpu_family": "penryn",
+    "xcode": "12.2",
+    "clt": "12.2.0.0.1.1604628099"
+  }
+}
