@@ -6,11 +6,11 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:21:01 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:51:57 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	env_len(const char *str)
 {

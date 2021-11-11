@@ -14,13 +14,13 @@ MANDATORY	=	main.c\
 
 CC = gcc
 
-INC_1 = -I./includes/ -L./readline/lib -I./readline/include
+INC_1 = -I./includes/ -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 FLAGS	= -Wall -Wextra -Werror
 
 SANITIZE	= -fsanitize=address -g3
 
-$(NAME): 
+$(NAME):
 		$(MAKE) -C ./ft_printf
 		cp ft_printf/libftprintf.a .
 		$(CC) $(FLAGS) $(INC_1) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
