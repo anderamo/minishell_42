@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:55 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/08 09:25:48 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:51:49 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ft_print_env(void)
 	}
 }
 
-/*size_t  ft_len_to_char(char *str, char c)
+size_t  ft_len_to_char(char *str, char c)
 {
     int i;
 
@@ -130,23 +130,19 @@ char	*ft_getenv(char *name)
 
 	if (!name)
 		return (NULL);
-	//len = ft_strlen(name);
+	len = ft_strlen(name);
 	i = 1;
-	//while (g_mini.env[i])
-	//{
-		//if (ft_strlen(name) >= ft_len_to_char(g_mini.env[i], '=')
-		//	&& ft_strncmp(g_mini.env[i], name, len) == 0)
-		//{
-		//	j = 0;
+	while (g_mini.env[i])
+	{
+		if (ft_strlen(name) >= ft_len_to_char(g_mini.env[i], '=')
+			&& ft_strncmp(g_mini.env[i], name, len) == 0)
+		{
+			j = 0;
 			while (g_mini.env[i][j] && g_mini.env[i][j] != '=')
-			{
-				printf("%c", g_mini.env[i][j]);
 				j++;
-			}
-			printf("\n");
-			//return (&g_mini.env[i][++j]);
-		//}
-	//	i++;
-	//}
+			return (&g_mini.env[i][++j]);
+		}
+		i++;
+	}
 	return (NULL);
-}*/
+}

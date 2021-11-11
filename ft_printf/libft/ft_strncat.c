@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarcia <migarcia@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/05 15:07:32 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/07 15:53:28 by migarcia         ###   ########.fr       */
+/*   Created: 2021/11/11 15:54:50 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/11 16:02:46 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "libft.h"
 
-void	ft_action(int sig)
+char    *ft_strncat(char *s1, char *s2, int n)
 {
-	(void)sig;
-	printf("\n");
-	write_pwd(g_mini.env);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	signal_proc()
-{
-	signal(SIGINT, ft_action);
-	signal(SIGQUIT, SIG_IGN);
+	char	*s;
+	int		len;
+	
+	s = s1;
+	s1 += ft_strlen(s1);
+	len = ft_strnlen(s2, n);
+	s1[len] = '\0';
+	ft_memcpy(s1, s2, len);
+	return (s);
 }

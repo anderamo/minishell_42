@@ -3,10 +3,14 @@ NAME = minishell
 MANDATORY	=	main.c\
 				src/signal.c\
 				src/builtins.c\
-				src/env.c\
-				src/array.c\
+				src/builtins_no_pipe.c\
 				src/builtin_env.c\
-				src/builtins_no_pipe.c
+				src/env.c\
+				src/pipex.c\
+				src/pipex_processes.c\
+				src/array.c\
+				src/heredoc.c\
+				src/arguments.c\
 
 CC = gcc
 

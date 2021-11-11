@@ -1,8 +1,10 @@
 NAME	= libft.a
 
 SRCS	=	ft_strlen.c\
+			ft_strnlen.c\
 			ft_strlcpy.c\
 			ft_strlcat.c\
+			ft_strncat.c\
 			ft_strncmp.c\
 			ft_atoi.c\
 			ft_isalpha.c\
@@ -24,6 +26,7 @@ SRCS	=	ft_strlen.c\
 			ft_isascii.c\
 			ft_calloc.c\
 			ft_strdup.c\
+			ft_strndup.c\
 			ft_substr.c\
 			ft_strjoin.c\
 			ft_strjoin_space.c\

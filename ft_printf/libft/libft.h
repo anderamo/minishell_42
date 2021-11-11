@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/09 12:51:35 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 15:57:46 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_list
 size_t			ft_strlen(char *str);
 size_t			ft_strlcpy(char *dest, char *src, size_t size);
 size_t			ft_strlcat(char *dest, char *src, size_t size);
+char			*ft_strncat(char *s1, char *s2, int n);
+int				ft_strnlen(char *s, int len);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				ft_atoi(char *str);
 int				ft_isalpha(int str);
@@ -50,6 +52,7 @@ void			*ft_memmove(void *destination, const void *source, size_t num);
 int				ft_isascii(int c);
 void			*ft_calloc(size_t nitems, size_t size);
 char			*ft_strdup(const char *src);
+char			*ft_strndup(char *s, int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_space(char const *s1, char const *s2);

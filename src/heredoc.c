@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 15:54:45 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/10 19:16:30 by aamorin-         ###   ########.fr       */
+/*   Created: 2021/11/11 16:24:51 by aamorin-          #+#    #+#             */
+/*   Updated: 2021/11/11 16:25:08 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_env(char **env)
+void	ft_heredoc(char *del)
 {
-	int		i;
+	char	*line;
+	int		fd;
 
-	if (!env || !(*env))
-		return (0);
-	g_mini.env = (char **)malloc(sizeof(char *) * (ft_array_size(env) + 2));
-	g_mini.last_error = 0;
-	if (!(g_mini.env))
-		return (0);
-	i = 0;
-	while (env[i])
+	fd = open("heredoc_tmp", O_RDWR | O_TRUNC | O_CREAT, 0644);
+	while (1)
 	{
-		g_mini.env[i] = ft_strdup(env[i]);
-		if (!g_mini.env[i])
-		{
-			ft_frlloc_n(g_mini.env, i);
-			return (0);
-		}
-		i++;
+		line = readline("\033[36mheredoc> \033[0m");
+		if (!ft_strcmp(line, del))
+			break ;
+		write (fd, line, ft_strlen(line));
+		write (fd, "\n", 1);
 	}
-	g_mini.env[i] = NULL;
-	signal_proc();
-	return (1);
 }

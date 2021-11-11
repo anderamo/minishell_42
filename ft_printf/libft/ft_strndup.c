@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarcia <migarcia@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 15:54:45 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/07 16:13:21 by migarcia         ###   ########.fr       */
+/*   Created: 2021/11/11 15:57:58 by migarcia          #+#    #+#             */
+/*   Updated: 2021/11/11 15:59:26 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "libft.h"
 
-int	init_env(char **env)
+char	*ft_strndup(char *s, int n)
 {
-	int		i;
-
-	if (!env || !(*env))
-		return (0);
-	g_mini.env = (char **)malloc(sizeof(char *) * (ft_array_size(env) + 2));
-	if (!(g_mini.env))
-		return (0);
-	i = 0;
-	while (env[i])
-	{
-		g_mini.env[i] = ft_strdup(env[i]);
-		if (!g_mini.env[i])
-		{
-			ft_frlloc_n(g_mini.env, i);
-			return (0);
-		}
-		i++;
-	}
-	g_mini.env[i] = NULL;
-	return (1);
+	int		len;
+	char	*d;
+	
+	len = ft_strlen(s) + 1;
+	if (len > n)
+		len = n;
+	d = malloc(sizeof(char *) * len);
+	if (!d)
+		return (NULL);
+	return (ft_memcpy(d, s, len));
 }

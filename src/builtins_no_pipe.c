@@ -6,43 +6,40 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/09 19:10:00 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/11 16:59:29 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define BUFF 1024
 
-void	ft_cd(char *next_path)
+void	ft_cd(char *next_path, int i)
 {
 	char	**split;
-	int		i;
 
-	i = 0;
 	if (!next_path || !ft_strcmp(next_path, "~"))
 	{
-		while (g_mini.env[i])
+		while (g_mini.env[++i])
 		{
 			split = ft_split(g_mini.env[i], '=');
 			if (!strcmp(split[0], "HOME"))
 				break;
 			ft_frlloc(split);
-			i++;
 		}
-		if(chdir(split[1]))
-			perror("chdir");
+		chdir(split[1]);
 		ft_frlloc(split);
-		ft_pwd(1);
 	}
 	else
 	{
 		if(chdir(next_path))
+		{
 			perror("chdir");
-		ft_pwd(1);
+			g_mini.last_error = 1;
+		}
 	}
+	ft_pwd(1);
 }
 
-void	ft_export(char *str)
+int	ft_export(char *str)
 {
 	char	**split_str;
 
@@ -54,13 +51,14 @@ void	ft_export(char *str)
 	}
 	else
 		printf("ERROR: Wrong export format\n");
+	return (1);
 }
 
 char	**ft_unset(char *str)
 {
-	char	**new_env;
+	char		**new_env;
 	size_t		i;
-	int		j;
+	int			j;
 
 	new_env = malloc(sizeof(char*) * (ft_array_size(g_mini.env)));
 	if(!new_env)
@@ -69,7 +67,7 @@ char	**ft_unset(char *str)
 	j = 0;
 	while (i < ft_array_size(g_mini.env))
 	{
-		if (!strncmp(g_mini.env[i], str, ft_strlen(str)))
+		if (!ft_strncmp(g_mini.env[i], str, ft_strlen(str)))
 			i++;
 		if (!g_mini.env[i])
 			break;
@@ -110,19 +108,13 @@ int	builtins_no_pipe(char *line)
 		commands = ft_split(line, ' ');
 		if (!ft_strcmp(commands[0], "cd"))
 		{
-			ft_cd(commands[1]);
+			ft_cd(commands[1], -1);
 			return (1);
 		}
 		if (!ft_strcmp(commands[0], "export"))
-		{
-			ft_export(commands[1]);
-			return (1);
-		}
+			return (ft_export(commands[1]));
 		if (!ft_strcmp(commands[0], "unset"))
-		{
-			ft_buil_unset(commands[1]);
-			return (1);
-		}
+			return (ft_buil_unset(commands[1]));
 		return (0);
 	}
 }

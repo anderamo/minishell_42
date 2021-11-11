@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:38 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/08 09:20:59 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 16:12:02 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	ft_array_size(char **arr)
 
 char	**ft_frlloc(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -46,4 +46,28 @@ void	ft_frlloc_n(char **tab, size_t n)
 	while (i < n)
 		free(tab[i++]);
 	free(tab);
+}
+
+int	ft_arraybilen(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+		i++;
+	return (i);
+}
+
+char	**ft_frlloc_int(int **tab, int size)
+{
+	int	i;
+
+	i = 0;
+	while (size > i)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
 }
