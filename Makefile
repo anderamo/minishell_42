@@ -35,6 +35,7 @@ f:
 clean:
 	$(MAKE) clean -C ./ft_printf
 	rm -rf *.o
+	rm -rf .DS_Store
 	rm -rf a.out
 	rm -rf a.out*
 

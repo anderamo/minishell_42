@@ -79,9 +79,16 @@ bonus:	${NAME}	${OBJS_1}
 all: ${NAME}
 
 clean:
+		rm -rf *.o
+		rm -rf .DS_Store
+		rm -rf a.out
+		rm -rf a.out*
 		${RM} ${OBJS} ${OBJS_1}
 
 fclean:	clean
+		rm -rf $(NAME)
+		rm -rf $(NAME).dSYM
+		rm -rf *.a
 		${RM} ${NAME} ${bonus}
 
 re: fclean all
