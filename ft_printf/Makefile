@@ -47,6 +47,7 @@ bonus: $(OBJ_1) $(SRCS)
 
 clean:
 	$(MAKE) clean -C ./libft
+	rm -rf .DS_Store
 	rm -rf $(OBJ)
 	rm -rf $(OBJ_1)
 	rm -rf $(SRCS)
