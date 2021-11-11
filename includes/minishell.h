@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 17:52:08 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 18:56:53 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		ft_setenv(char *name, char *value, int replace);
 char	*ft_getenv(char *name);
 void	ft_print_env(void);
 void	ft_pwd(int print);
-int		copy_quote(char *dest, char *src, int i);
+int		copy_quote(char *dest, char *src, int i, char *error);
 int		parse_arguments(t_cmd *cmd);
 int		check_if_exits(t_pipe pipex, int a);
 char	**ft_frlloc_int(int **tab, int size);

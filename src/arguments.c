@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:51:57 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 18:55:49 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_env(char *dest, char *src, int *i)
 		ft_strncat(dest, &src[(*i)++], 1);
 }
 
-int	copy_quote(char *dest, char *src, int i)
+int	copy_quote(char *dest, char *src, int i, char *error)
 {
 	char	c;
 
@@ -63,7 +63,11 @@ int	copy_quote(char *dest, char *src, int i)
 	while (src[i] && src[i] != c)
 	{
 		if (c == '\"' && src[i] == '$')
+		{
+			if (src[i + 1] == '?')
+				ft_strncat(dest, error, ft_strlen(error));
 			expand_env(dest, src, &i);
+		}
 		else
 			ft_strncat(dest, &src[i++], 1);
 	}
