@@ -6,26 +6,27 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:55 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:51:49 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:21:36 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    *ft_strjoin3(char *a, char *b, char *c)
+char	*ft_strjoin3(char *a, char *b, char *c)
 {
 	unsigned int	i;
-	char	*dest;
+	char			*dest;
 
 	if (!a || !b || !c)
 		return (NULL);
-	dest = malloc(sizeof(char) * (ft_strlen(a) + ft_strlen(b) + ft_strlen(c)) + 1);
+	dest = malloc(sizeof(char) * (ft_strlen(a)
+				+ ft_strlen(b) + ft_strlen(c)) + 1);
 	if (!dest)
 		return (NULL);
 	i = 0;
 	while (*a)
 		dest[i++] = *a++;
-    while (*b)
+	while (*b)
 		dest[i++] = *b++;
 	while (*c)
 		dest[i++] = *c++;
@@ -109,40 +110,4 @@ void	ft_print_env(void)
 		printf("---%s\n", g_mini.env[i]);
 		i++;
 	}
-}
-
-size_t  ft_len_to_char(char *str, char c)
-{
-    int i;
-
-    i = 0;
-    while (str[i] && str[i] != c)
-        i++;
-    return (i);
-}
-
-
-char	*ft_getenv(char *name)
-{
-	int		i;
-	int		j;
-	size_t	len;
-
-	if (!name)
-		return (NULL);
-	len = ft_strlen(name);
-	i = 1;
-	while (g_mini.env[i])
-	{
-		if (ft_strlen(name) >= ft_len_to_char(g_mini.env[i], '=')
-			&& ft_strncmp(g_mini.env[i], name, len) == 0)
-		{
-			j = 0;
-			while (g_mini.env[i][j] && g_mini.env[i][j] != '=')
-				j++;
-			return (&g_mini.env[i][++j]);
-		}
-		i++;
-	}
-	return (NULL);
 }

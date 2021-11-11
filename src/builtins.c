@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 16:59:02 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:19:30 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_cmd	*new_cmd(void)
 
 void	ft_print_echo(t_cmd *cmd)
 {
-	if(cmd->options == 1)
+	if (cmd->options == 1)
 		ft_printf("%s\0", cmd->line);
 	else
 		ft_printf("%s\n", cmd->line);
@@ -58,9 +58,9 @@ void	ft_echo(char **commands)
 	int		i;
 	int		j;
 
-	cmd = new_cmd();;
+	cmd = new_cmd();
 	i = 1;
-	while(commands[i])
+	while (commands[i])
 	{
 		if (i == 1 && !ft_strcmp(commands[i], "-n"))
 		{
@@ -69,12 +69,12 @@ void	ft_echo(char **commands)
 		}
 		j = 0;
 		while (commands[i][j])
-    	{
-        	if (commands[i][j] == '\'' || commands[i][j] == '\"')
+		{
+			if (commands[i][j] == '\'' || commands[i][j] == '\"')
 				j = copy_quote(cmd->line, commands[i], 0);
 			else
 				ft_strncat(cmd->line, &commands[i][j++], 1);
-    	}
+		}
 		ft_strncat(cmd->line, " ", 1);
 		i++;
 	}

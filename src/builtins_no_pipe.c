@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins_no_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 16:59:29 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:18:43 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_cd(char *next_path, int i)
 		{
 			split = ft_split(g_mini.env[i], '=');
 			if (!strcmp(split[0], "HOME"))
-				break;
+				break ;
 			ft_frlloc(split);
 		}
 		chdir(split[1]);
@@ -30,7 +30,7 @@ void	ft_cd(char *next_path, int i)
 	}
 	else
 	{
-		if(chdir(next_path))
+		if (chdir(next_path))
 		{
 			perror("chdir");
 			g_mini.last_error = 1;
@@ -60,8 +60,8 @@ char	**ft_unset(char *str)
 	size_t		i;
 	int			j;
 
-	new_env = malloc(sizeof(char*) * (ft_array_size(g_mini.env)));
-	if(!new_env)
+	new_env = malloc(sizeof(char *) * (ft_array_size(g_mini.env)));
+	if (!new_env)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -70,7 +70,7 @@ char	**ft_unset(char *str)
 		if (!ft_strncmp(g_mini.env[i], str, ft_strlen(str)))
 			i++;
 		if (!g_mini.env[i])
-			break;
+			break ;
 		new_env[j] = ft_strdup(g_mini.env[i]);
 		i++;
 		j++;
@@ -98,12 +98,12 @@ int	ft_buil_unset(char *command)
 
 int	builtins_no_pipe(char *line)
 {
-	char **commands;
+	char	**commands;
 
 	if (!ft_strcmp(line, ""))
-        return (0);
-    else
-    {
+		return (0);
+	else
+	{
 		add_history(line);
 		commands = ft_split(line, ' ');
 		if (!ft_strcmp(commands[0], "cd"))

@@ -6,11 +6,46 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:45 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/10 19:16:30 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:21:43 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+size_t	ft_len_to_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
+
+char	*ft_getenv(char *name)
+{
+	int		i;
+	int		j;
+	size_t	len;
+
+	if (!name)
+		return (NULL);
+	len = ft_strlen(name);
+	i = 1;
+	while (g_mini.env[i])
+	{
+		if (ft_strlen(name) >= ft_len_to_char(g_mini.env[i], '=')
+			&& ft_strncmp(g_mini.env[i], name, len) == 0)
+		{
+			j = 0;
+			while (g_mini.env[i][j] && g_mini.env[i][j] != '=')
+				j++;
+			return (&g_mini.env[i][++j]);
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 int	init_env(char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 16:48:52 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/11 17:16:56 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ char	*get_bin_path(char **envp, char *command)
 	return (NULL);
 }
 
-int check_if_exits(t_pipe pipex, int a)
+int	check_if_exits(t_pipe pipex, int a)
 {
-	int     i;
+	int	i;
 
 	i = 1;
 	while (pipex.exe[a].c_split[i] != NULL)
@@ -65,7 +65,7 @@ int check_if_exits(t_pipe pipex, int a)
 		else
 		{
 			printf("bash: %s: No such file or directory\n",
-			pipex.exe[a].c_split[i]);
+				pipex.exe[a].c_split[i]);
 			g_mini.last_error = 1;
 			return (0);
 		}
@@ -73,7 +73,7 @@ int check_if_exits(t_pipe pipex, int a)
 	return (1);
 }
 
-void	write_pwd()
+void	write_pwd(void)
 {
 	int		i;
 	char	**split;
@@ -83,14 +83,13 @@ void	write_pwd()
 	{
 		split = ft_split(g_mini.env[i], '=');
 		if (!strcmp(split[0], "PWD"))
-			break;
+			break ;
 		ft_frlloc(split);
 		i++;
 	}
 	printf("\033[36m%s\n", split[1]);
 	ft_frlloc(split);
 }
-
 
 int	main(int a, char **argv, char **env)
 {
