@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 18:56:53 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 19:25:47 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_pipe
 	char	*stdin_file;
 	char	*stdout_file;
 	char	**com;
+	char	*tomas;
 	int		append;
 	int		heredoc;
 	t_exe	*exe;
@@ -56,10 +57,14 @@ typedef struct s_command
 
 typedef struct s_mini
 {
+	char	**split_pipe;
 	char	**env;
 	char	*path;
 	int		last_error;
+	char	*prompt;
 	char	*line;
+	pid_t	pid;
+	char	*error;
 }	t_mini;
 
 t_mini	g_mini;
@@ -67,11 +72,13 @@ t_mini	g_mini;
 void	write_pwd(void);
 int		init_env(char **env);
 size_t	ft_array_size(char **arr);
-char	**ft_frlloc(char **tab);
+int		ft_frlloc(char **tab);
 void	ft_frlloc_n(char **tab, size_t n);
 int		ft_setenv(char *name, char *value, int replace);
 char	*ft_getenv(char *name);
-void	ft_print_env(void);
+char	*ft_strjoin3(char *a, char *b, char *c);
+int		ft_print_env(void);
+char	*find_env(char *src, int *i);
 void	ft_pwd(int print);
 int		copy_quote(char *dest, char *src, int i, char *error);
 int		parse_arguments(t_cmd *cmd);
@@ -80,12 +87,12 @@ char	**ft_frlloc_int(int **tab, int size);
 void	signal_proc(void);
 int		builtins(char **commands);
 void	pipex(char **argv, int count, int a);
-int		builtins_no_pipe(char *line);
 char	*readline(const char *prompt);
 void	ft_heredoc(char *del);
 void	ft_action(int sig);
-int		builtins_no_pipe(char *line);
+int		builtins_no_pipe(char *line, char **commands);
 int		ft_arraybilen(char **array);
+int		ft_last_error(void);
 char	*get_bin_path(char **envp, char *command);
 int		get_path(char **envp);
 void	create_processes(t_pipe pipex);
@@ -93,5 +100,10 @@ void	ft_heredoc(char *del);
 void	child(t_pipe pipex, char **envp, int i, int j);
 int		pipex_3(t_pipe *pipex, int index);
 int		ft_stdin_file(t_pipe *pipex);
+void	free_pipex(t_pipe *pipex);
+void	free_processes(t_pipe *pipex);
+int		free_builtins(t_cmd	*cmd);
+t_pipe	init_pipex(int a);
+int		pipex_4(t_pipe *pipex, int po);
 
 #endif

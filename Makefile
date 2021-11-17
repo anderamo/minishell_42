@@ -7,10 +7,12 @@ MANDATORY	=	main.c\
 				src/builtin_env.c\
 				src/env.c\
 				src/pipex.c\
+				src/pipex_2.c\
 				src/pipex_processes.c\
 				src/array.c\
 				src/heredoc.c\
 				src/arguments.c\
+				src/free.c
 
 CC = gcc
 
@@ -31,6 +33,9 @@ s:
 	$(CC) $(INC_1) $(MANDATORY) $(SANITIZE) -lreadline libftprintf.a -o $(NAME)
 f:
 	$(CC) $(INC_1) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
+v:
+	$(CC) $(INC_1) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
+	valgrind --leak-check=full ./minishell
 
 clean:
 	$(MAKE) clean -C ./ft_printf

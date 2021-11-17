@@ -6,11 +6,12 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 15:07:32 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 16:22:58 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/13 12:17:42 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 int	ft_last_error(void)
 {
@@ -21,17 +22,32 @@ int	ft_last_error(void)
 
 void	ft_action(int sig)
 {
-	printf("\n");
-	write_pwd();
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	if (sig == 0)
-		return ;
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		if (g_mini.pid == 0)
+			rl_redisplay();
+	}
+	if (sig == SIGQUIT && g_mini.pid != 0)
+	{
+		printf("Quit: 3\n");
+		kill(g_mini.pid, SIGQUIT);
+		g_mini.pid = 0;
+	}
+	else if (sig == SIGQUIT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	g_mini.pid = 0;
 }
 
 void	signal_proc(void)
 {
 	signal(SIGINT, ft_action);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_action);
 }

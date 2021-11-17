@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 18:14:48 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 19:54:45 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 		if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
 			printf ("bash: %s: command not found\n", pipex.exe[i].c_split[0]);
 	}
-	ft_frlloc(pipex.exe[i].c_split);
 	free(pipex.bin);
 	g_mini.last_error = 127;
 	exit (127);
@@ -52,9 +51,11 @@ int	ft_stdin_file(t_pipe *pipex)
 			{
 				printf("bash: %s: No such file or directory\n",
 					pipex->stdin_file);
+				free(pipex->stdin_file);
 				g_mini.last_error = 1;
 				return (0);
 			}
+			free(pipex->stdin_file);
 		}
 		else
 			pipex->pipes[0][0] = open(pipex->stdin_file, O_RDONLY);
@@ -73,6 +74,7 @@ void	ft_stdout_file(t_pipe *pipex)
 		else
 			pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
 					O_RDWR | O_TRUNC | O_CREAT, 0755);
+		free(pipex->stdout_file);
 	}
 	else
 		pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
@@ -93,6 +95,8 @@ void	close_father(t_pipe *pipex)
 			close(pipex->pipes[j][0]);
 			j++;
 	}
+	if (!ft_strcmp(pipex->exe[i].c_split[0], "$?"))
+		g_mini.last_error = 127;
 }
 
 void	create_processes(t_pipe pipex)
@@ -102,22 +106,20 @@ void	create_processes(t_pipe pipex)
 	if (!(ft_stdin_file(&pipex)))
 		return ;
 	ft_stdout_file(&pipex);
-	i = 0;
-	while (i < pipex.procecess_num)
+	i = -1;
+	while (++i < pipex.procecess_num)
 	{
 		pipex.pid[i] = fork();
+		g_mini.pid = pipex.pid[i];
 		if (pipex.pid[i] == -1)
 			break ;
 		if (pipex.pid[i] == 0)
-		{
 			child(pipex, g_mini.env, i, 0);
-		}
-		i++;
 	}
 	close_father(&pipex);
 	wait (0);
-	free(pipex.pid);
-	ft_frlloc_int(pipex.pipes, pipex.procecess_num + 1);
+	free_processes(&pipex);
+	g_mini.pid = 0;
 	if (pipex.heredoc == 1)
 		unlink("heredoc_tmp");
 }

@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:38 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:17:21 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 09:03:49 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_array_size(char **arr)
 	return (size);
 }
 
-char	**ft_frlloc(char **tab)
+int	ft_frlloc(char **tab)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ char	**ft_frlloc(char **tab)
 		i++;
 	}
 	free(tab);
-	return (NULL);
+	return (1);
 }
 
 void	ft_frlloc_n(char **tab, size_t n)

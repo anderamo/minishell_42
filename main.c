@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 17:16:56 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 19:04:43 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,23 @@ char	*get_bin_path(char **envp, char *command)
 	char	**path_split;
 	int		i;
 	int		j;
+	char	*bin;
 
+	if (!ft_strncmp(command, "/", 1))
+		return (command);
 	i = get_path(envp);
-	j = 0;
+	j = -1;
 	path_split = ft_split(envp[i] + 5, ':');
-	while (path_split[j])
+	while (path_split[++j])
 	{
 		path_split[j] = ft_strjoin(path_split[j], "/");
 		path_split[j] = ft_strjoin(path_split[j], command);
 		if (!access(path_split[j], F_OK))
-			return (path_split[j]);
-		j++;
+		{
+			bin = ft_strdup(path_split[j]);
+			ft_frlloc(path_split);
+			return (bin);
+		}
 	}
 	ft_frlloc(path_split);
 	return (NULL);
@@ -67,7 +73,7 @@ int	check_if_exits(t_pipe pipex, int a)
 			printf("bash: %s: No such file or directory\n",
 				pipex.exe[a].c_split[i]);
 			g_mini.last_error = 1;
-			return (0);
+			return (1);
 		}
 	}
 	return (1);
@@ -78,6 +84,7 @@ void	write_pwd(void)
 	int		i;
 	char	**split;
 
+	wait(0);
 	i = 0;
 	while (g_mini.env[i])
 	{
@@ -87,34 +94,34 @@ void	write_pwd(void)
 		ft_frlloc(split);
 		i++;
 	}
-	printf("\033[36m%s\n", split[1]);
+	g_mini.prompt = ft_strjoin3("\033[36m", split[1], " > \033[0m");
 	ft_frlloc(split);
 }
 
 int	main(int a, char **argv, char **env)
 {
-	char		**split_pipe;
-
 	init_env(env);
-	signal_proc();
 	while (1 || argv || a)
 	{
-		wait(0);
 		write_pwd();
-		g_mini.line = readline(" > \033[0m");
+		g_mini.line = readline(g_mini.prompt);
+		free(g_mini.prompt);
 		while (g_mini.line && (ft_isspace(*g_mini.line)))
 			g_mini.line++;
-		if (!ft_strcmp(g_mini.line, "exit"))
+		if (!ft_strncmp(g_mini.line, "exit ", 5)
+			|| !ft_strcmp(g_mini.line, "exit"))
 			break ;
 		if (ft_strcmp(g_mini.line, ""))
 		{
-			if (!builtins_no_pipe(g_mini.line))
+			if (!builtins_no_pipe(g_mini.line, NULL))
 			{
-				split_pipe = ft_split(g_mini.line, '|');
-				pipex(split_pipe, ft_arraybilen(split_pipe), -1);
-				ft_frlloc(split_pipe);
+				g_mini.split_pipe = ft_split(g_mini.line, '|');
+				pipex(g_mini.split_pipe, ft_arraybilen(g_mini.split_pipe), -1);
+				ft_frlloc(g_mini.split_pipe);
 			}
+			free(g_mini.line);
 		}
 	}
+	ft_frlloc(g_mini.env);
 	return (0);
 }

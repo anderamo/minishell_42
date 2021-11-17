@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 16:13:56 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/07 16:30:13 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/16 18:58:30 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin_space(char const *s1, char const *s2)
 	size_t	i;
 
 	i = 0;
-	if (!s1)
+	if (!s1 || s1 == NULL)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (0);

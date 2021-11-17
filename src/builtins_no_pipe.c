@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:18:43 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 18:19:55 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,30 @@ int	ft_buil_unset(char *command)
 	return (1);
 }
 
-int	builtins_no_pipe(char *line)
+int	builtins_no_pipe(char *line, char **commands)
 {
-	char	**commands;
-
 	if (!ft_strcmp(line, ""))
 		return (0);
 	else
 	{
-		add_history(line);
+		add_history(g_mini.line);
 		commands = ft_split(line, ' ');
 		if (!ft_strcmp(commands[0], "cd"))
 		{
 			ft_cd(commands[1], -1);
-			return (1);
+			return (ft_frlloc(commands));
 		}
 		if (!ft_strcmp(commands[0], "export"))
-			return (ft_export(commands[1]));
+		{
+			ft_export(commands[1]);
+			return (ft_frlloc(commands));
+		}
 		if (!ft_strcmp(commands[0], "unset"))
-			return (ft_buil_unset(commands[1]));
+		{
+			ft_buil_unset(commands[1]);
+			return (ft_frlloc(commands));
+		}
+		ft_frlloc(commands);
 		return (0);
 	}
 }

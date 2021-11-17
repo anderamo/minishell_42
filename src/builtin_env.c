@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:55 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:21:36 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/17 19:08:48 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_setenv(char *name, char *value, int replace)
 	return (add_new_env(name, value));
 }
 
-void	ft_print_env(void)
+int	ft_print_env(void)
 {
 	int	i;
 
@@ -110,4 +110,5 @@ void	ft_print_env(void)
 		printf("---%s\n", g_mini.env[i]);
 		i++;
 	}
+	return (1);
 }
