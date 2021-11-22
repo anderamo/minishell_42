@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:25:18 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/17 19:25:36 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/22 18:48:49 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	pipex_4(t_pipe *pipex, int po)
 			, "<") && ft_strcmp(pipex->com[po], ">")
 		&& ft_strcmp(pipex->com[po], "<<")
 		&& ft_strcmp(pipex->com[po], ">>"))
-	pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po]);
+		pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po]);
+	else
+		return (po);
 	while (ft_arraybilen(pipex->com) > po + 1 && ft_strcmp(pipex->com[po + 1]
 			, "<") && ft_strcmp(pipex->com[po + 1], ">")
 		&& ft_strcmp(pipex->com[po + 1], "<<")

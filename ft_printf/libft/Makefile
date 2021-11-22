@@ -34,6 +34,7 @@ SRCS	=	ft_strlen.c\
 			ft_strtrim.c\
 			ft_split.c\
 			ft_split_comma.c\
+			ft_split_minishell.c\
 			ft_itoa.c\
 			ft_strmapi.c\
 			ft_putchar_fd.c\

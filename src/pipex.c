@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/17 19:24:56 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/22 18:53:32 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	pipex_3(t_pipe *pipex, int index)
 
 int	pipex_2_1(t_pipe *pipex, int index)
 {
-	if (!ft_strcmp(pipex->com[index], ">"))
+	if (ft_arraybilen(pipex->com) > index && !ft_strcmp(pipex->com[index], ">"))
 	{
 		if (ft_arraybilen(pipex->com) > index + 1)
 		{
@@ -91,11 +91,23 @@ int	pipex_2(t_pipe *pipex, int index)
 	if (ft_arraybilen(pipex->com) > index
 		&& !ft_strcmp(pipex->com[index], ">>"))
 	{
-		if (pipex->stdout_file != NULL)
+		if (ft_arraybilen(pipex->com) > index && ft_strcmp(pipex->com[index + 1], ">")
+			&& ft_strcmp(pipex->com[index + 1], ">>") && ft_strcmp(pipex->com[index + 1], "<")
+			&& ft_strcmp(pipex->com[index + 1], "<<"))
+		{
+			if (pipex->stdout_file != NULL)
 			free(pipex->stdout_file);
-		pipex->stdout_file = ft_strdup(pipex->com[index + 1]);
-		pipex->append = 1;
-		index += 2;
+			pipex->stdout_file = ft_strdup(pipex->com[index + 1]);
+			pipex->append = 1;
+			index += 2;
+		}
+		else
+		{
+			printf("bash: syntax error near unexpected token `>'\n");
+			g_mini.last_error = 258;
+			ft_frlloc(pipex->com);
+			return (-1);
+		}
 	}
 	return (index);
 }
@@ -108,7 +120,17 @@ void	pipex(char **argv, int count, int a)
 	pipex = init_pipex(count);
 	while (argv[++a])
 	{
-		pipex.com = ft_split(argv[a], ' ');
+		pipex.com = ft_split_minishell(argv[a]);
+		if (!pipex.com)
+			return ;
+		/*
+		int i = 0;
+		while (pipex.com[i])
+		{
+			printf("%s\n",pipex.com[i]);
+			i++;
+		}
+		*/
 		index = 0;
 		pipex.tomas = NULL;
 		while (ft_arraybilen(pipex.com) > index && pipex.com[index])

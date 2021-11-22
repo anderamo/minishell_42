@@ -6,7 +6,7 @@
 /*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/11 15:57:46 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:58:59 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char			*ft_chrjoin(char const *s1, char chr);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
 char			**ft_split_comma(char *s, char c);
+char			**ft_split_minishell(char *s);
 char			*ft_itoa(int n);
 char			*ft_itoa_unsint(unsigned int n);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
