@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/17 19:04:43 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/23 18:17:23 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ int	main(int a, char **argv, char **env)
 				pipex(g_mini.split_pipe, ft_arraybilen(g_mini.split_pipe), -1);
 				ft_frlloc(g_mini.split_pipe);
 			}
-			free(g_mini.line);
 		}
 	}
 	ft_frlloc(g_mini.env);

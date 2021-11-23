@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/17 19:25:47 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:35:05 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/ioctl.h>
+# include <termios.h> 
 
 # define BUFF 1024
 

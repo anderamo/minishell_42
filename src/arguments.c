@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 18:55:49 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/23 19:13:30 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ int	copy_quote(char *dest, char *src, int i, char *error)
 			expand_env(dest, src, &i);
 		}
 		else
+		{
 			ft_strncat(dest, &src[i++], 1);
+		}
 	}
 	if (src[i])
 		i++;

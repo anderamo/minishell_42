@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/17 19:52:04 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/23 18:51:00 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,30 @@ t_cmd	*new_cmd(void)
 }
 
 int	ft_dollar(t_cmd *cmd, char *src, char *error)
-	{
+{
 	int		i;
 	char	*dst;
 
 	i = 1;
 	if (src[i] == '?')
 	{
-		strncat(cmd->line, error, ft_strlen(error));
+		ft_strncat(cmd->line, error, ft_strlen(error));
 		return (2);
 	}
 	else
 	{
 		dst = find_env(&src[i], &i);
 		if (dst)
-			strncat(cmd->line, dst, ft_strlen(dst));
+			ft_strncat(cmd->line, dst, ft_strlen(dst));
 		else
-			strncat(cmd->line, "", 1);
+			ft_strncat(cmd->line, "", 1);
 	}
-	while (ft_strlen(src) > i && src[i])
-		i++;
-	return (i);
+	return ((int)ft_strlen(src));
 }
 
 void	ft_echo(char **commands, t_cmd *cmd, char *error, size_t i)
 {
-	int		j;
+	int	j;
 
 	while (ft_array_size(commands) > i && commands[++i])
 	{
@@ -80,7 +78,7 @@ void	ft_echo(char **commands, t_cmd *cmd, char *error, size_t i)
 			i++;
 		}
 		j = 0;
-		while (ft_strlen(commands[i]) > j && commands[i][j])
+		while ((int)ft_strlen(commands[i]) > j && commands[i][j])
 		{
 			if (commands[i][j] == '\'' || commands[i][j] == '\"')
 				j = copy_quote(cmd->line, commands[i], 0, error);
