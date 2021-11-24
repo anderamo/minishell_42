@@ -6,74 +6,72 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/23 19:13:30 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 10:40:39 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_len(const char *str)
+int	env_len(const char *str, int pos)
 {
 	int	i;
 
+	i = 0;
 	if (!str)
 		return (0);
-	i = 0;
-	while (str[i] && !(ft_isspace(str[i])) && str[i] != '$'
-		&& str[i] != '/' && str[i] != '\"' && str[i] != '\'')
-	i++;
+	while (str[pos] && !(ft_isspace(str[pos])) && str[pos] != '$'
+		&& str[pos] != '/' && str[pos] != '\"' && str[pos] != '\'')
+	{
+		pos++;
+		i++;
+	}
 	return (i);
 }
 
-char	*find_env(char *src, int *i)
+char	*find_env(char *src, int pos)
 {
 	int		len;
 	char	*temp;
 	char	*dest;
+	int		j;
 
-	len = env_len(src);
-	(*i) += len + 1;
-	temp = ft_strndup(src, len);
+	len = env_len(src, pos);
+	temp = malloc(sizeof(char) * (len + 1));
+	j = 0;
+	while (len > j)
+	{
+		temp[j] = src[pos];
+		j++;
+		pos++;
+	}
+	temp[len] = '\0';
 	dest = ft_getenv(temp);
 	free(temp);
 	return (dest);
 }
 
-void	expand_env(char *dest, char *src, int *i)
-{
-	char	*env;
-
-	if (src[*i + 1] == '$')
-		(*i) += 2;
-	else if (src[*i + 1] && !(ft_isspace(src[*i + 1])))
-	{
-		env = find_env(&src[*i + 1], i);
-		if (env)
-			ft_strncat(dest, env, ft_strlen(env));
-	}
-	else
-		ft_strncat(dest, &src[(*i)++], 1);
-}
-
-int	copy_quote(char *dest, char *src, int i, char *error)
+int	ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j)
 {
 	char	c;
 
-	c = src[i++];
-	while (src[i] && src[i] != c)
+	if (commands[i][j] == '\'' || commands[i][j] == '\"')
 	{
-		if (c == '\"' && src[i] == '$')
+		c = commands[i][j];
+		j++;
+		while ((int)ft_strlen(commands[i]) > j)
 		{
-			if (src[i + 1] == '?')
-				ft_strncat(dest, error, ft_strlen(error));
-			expand_env(dest, src, &i);
-		}
-		else
-		{
-			ft_strncat(dest, &src[i++], 1);
+			if (commands[i][j] == '$')
+				j += ft_dollar(cmd, commands[i], c, j + 1);
+			else if (commands[i][j] != '\"')
+				write(1, &commands[i][j], 1);
+			if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
+				j++;
+			j++;
 		}
 	}
-	if (src[i])
-		i++;
-	return (i);
+	else if (commands[i][j] == '$')
+		j += ft_dollar(cmd, commands[i], '\"', j + 1) + 1;
+	else
+		write(1, &commands[i][j++], 1);
+	return (j);
 }

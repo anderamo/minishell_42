@@ -12,6 +12,7 @@ MANDATORY	=	main.c\
 				src/array.c\
 				src/heredoc.c\
 				src/arguments.c\
+				src/cd.c\
 				src/free.c
 
 CC = gcc

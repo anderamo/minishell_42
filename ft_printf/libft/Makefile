@@ -30,6 +30,7 @@ SRCS	=	ft_strlen.c\
 			ft_substr.c\
 			ft_strjoin.c\
 			ft_strjoin_space.c\
+			ft_strjoin_no_free.c\
 			ft_chrjoin.c\
 			ft_strtrim.c\
 			ft_split.c\

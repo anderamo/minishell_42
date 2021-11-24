@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/23 18:51:00 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:54:52 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,61 +34,54 @@ t_cmd	*new_cmd(void)
 	if (!cmd)
 		return (NULL);
 	cmd->options = 0;
+	cmd->dollar_fail = 0;
 	cmd->args = NULL;
-	cmd->line = ft_calloc(BUFF, sizeof(char));
-	if (!cmd->line)
-	{
-		free(cmd->line);
-		return (NULL);
-	}
 	return (cmd);
 }
 
-int	ft_dollar(t_cmd *cmd, char *src, char *error)
+int	ft_dollar(t_cmd *cmd, char *src, char c, int j)
 {
-	int		i;
 	char	*dst;
 
-	i = 1;
-	if (src[i] == '?')
+	cmd->dollar_fail = 0;
+	if (c == '\"' && src[j] != ' ' && src[j] != '\0')
 	{
-		ft_strncat(cmd->line, error, ft_strlen(error));
-		return (2);
+		if (src[j] == '?')
+		{
+			write(1, g_mini.error, ft_strlen(g_mini.error));
+			return (2);
+		}
+		else
+		{
+			dst = find_env(src, j);
+			if (dst)
+				write(1, dst, ft_strlen(dst));
+			else
+				cmd->dollar_fail = 1;
+			return (env_len(src, j));
+		}
 	}
 	else
-	{
-		dst = find_env(&src[i], &i);
-		if (dst)
-			ft_strncat(cmd->line, dst, ft_strlen(dst));
-		else
-			ft_strncat(cmd->line, "", 1);
-	}
-	return ((int)ft_strlen(src));
+		return (write(1, "$", 1));
 }
 
-void	ft_echo(char **commands, t_cmd *cmd, char *error, size_t i)
+void	ft_echo(char **commands, t_cmd *cmd, size_t i)
 {
-	int	j;
+	int		j;
 
-	while (ft_array_size(commands) > i && commands[++i])
+	if (ft_array_size(commands) > i && !ft_strcmp(commands[i], "-n"))
 	{
-		if (i == 1 && !ft_strcmp(commands[i], "-n"))
-		{
-			cmd->options = 1;
-			i++;
-		}
+		cmd->options = 1;
+		i++;
+	}
+	while (ft_array_size(commands) > i)
+	{
 		j = 0;
 		while ((int)ft_strlen(commands[i]) > j && commands[i][j])
-		{
-			if (commands[i][j] == '\'' || commands[i][j] == '\"')
-				j = copy_quote(cmd->line, commands[i], 0, error);
-			else if (commands[i][j] == '$')
-				j += ft_dollar(cmd, commands[i], error);
-			else
-				ft_strncat(cmd->line, &commands[i][j++], 1);
-		}
-		if (ft_array_size(commands) != i + 1)
-			ft_strncat(cmd->line, " ", 1);
+			j = ft_copy_quote(commands, cmd, i, j);
+		if (ft_array_size(commands) - 1 != i && cmd->dollar_fail == 0)
+			write (1, " ", 1);
+		i++;
 	}
 }
 
@@ -100,11 +93,11 @@ int	builtins(char **commands)
 	{
 		cmd = new_cmd();
 		g_mini.error = ft_itoa(g_mini.last_error);
-		ft_echo(commands, cmd, g_mini.error, 0);
+		ft_echo(commands, cmd, 1);
 		if (cmd->options == 0)
-			ft_printf("%s\n", cmd->line);
+			ft_printf("\n");
 		else
-			ft_printf("%s\0", cmd->line);
+			ft_printf("\0");
 		free_builtins(cmd);
 		return (1);
 	}

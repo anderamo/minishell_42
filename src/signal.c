@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 15:07:32 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/23 16:53:29 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 10:45:43 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,25 @@ int	ft_last_error(void)
 	return (1);
 }
 
-void	ft_action(int sig)
+void	ft_int_action(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == SIGINT && g_mini.pid == 0)
 	{
-		printf("\n");
+		printf("\033[2K\r");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		if (g_mini.pid == 0)
-			rl_redisplay();
+		write(1, "\n", 1);
+		rl_redisplay();
 	}
+	else if (sig == SIGINT)
+	{
+		printf("\r");
+		write(1, "\n", 1);
+	}
+}
+
+void	ft_quit_action(int sig)
+{
 	if (sig == SIGQUIT && g_mini.pid != 0)
 	{
 		printf("Quit: 3\n");
@@ -38,9 +47,8 @@ void	ft_action(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		printf("\n");
+		printf("\033[2K");
 		rl_on_new_line();
-		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	g_mini.pid = 0;
@@ -48,6 +56,6 @@ void	ft_action(int sig)
 
 void	signal_proc(void)
 {
-	signal(SIGINT, ft_action);
-	signal(SIGQUIT, ft_action);
+	signal(SIGINT, ft_int_action);
+	signal(SIGQUIT, ft_quit_action);
 }

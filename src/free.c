@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:11:42 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/17 19:14:53 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 10:29:38 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	free_pipex(t_pipe *pipex)
 
 int	free_builtins(t_cmd	*cmd)
 {
-	free(cmd->line);
 	free(cmd);
 	free(g_mini.error);
 	return (1);

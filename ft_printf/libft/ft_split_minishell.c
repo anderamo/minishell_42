@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:56:43 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 19:04:33 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 14:09:01 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ char	**ft_split_minishell(char *s)
 		write(1, "Error the quote are not close\n", 31);
 		return (NULL);
 	}
-
 	array = malloc((array_row + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);

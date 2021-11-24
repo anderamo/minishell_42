@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 18:18:32 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 10:55:11 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ int	ft_stdin_file(t_pipe *pipex)
 {
 	close(pipex->pipes[0][0]);
 	if (pipex->heredoc == 1)
-	{
 		pipex->pipes[0][0] = open("heredoc_tmp", O_RDONLY);
-	}
 	else
 	{
 		if (pipex->stdin_file != NULL)
@@ -68,7 +66,7 @@ int	ft_stdin_file(t_pipe *pipex)
 void	ft_stdout_file(t_pipe *pipex)
 {
 	if (pipex->heredoc == 1 && pipex->exe[0].c_split == NULL)
-		pipex->exe[0].c_split = ft_split("cat", ' ');
+		pipex->exe[0].c_split = ft_split_minishell("cat");
 	close(pipex->pipes[pipex->procecess_num][1]);
 	if (pipex->stdout_file != NULL)
 	{

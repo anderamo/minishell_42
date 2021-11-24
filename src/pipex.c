@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 18:06:20 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:01:16 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	pipex_3_1(t_pipe *pipex, int index)
 		{
 			ft_heredoc(pipex->com[++index]);
 			pipex->heredoc = 1;
+			g_mini.pid = 0;
 		}
 		else
 		{
@@ -83,39 +84,38 @@ int	pipex_2_1(t_pipe *pipex, int index)
 	return (index);
 }
 
-int	pipex_2(t_pipe *p, int i)
+int	pipex_2(t_pipe *pipex, int i)
 {
-	i = pipex_2_1(p, i);
+	i = pipex_2_1(pipex, i);
 	if (i == -1)
 		return (-1);
-	if (ft_arraybilen(p->com) > i
-		&& !ft_strcmp(p->com[i], ">>"))
+	if (ft_arraybilen(pipex->com) > i && !ft_strcmp(pipex->com[i], ">>"))
 	{
-		if (ft_arraybilen(p->com) > i + 1 && ft_strcmp(p->com[i + 1], ">")
-			&& ft_strcmp(p->com[i + 1], ">>") && ft_strcmp(p->com[i + 1], "<")
-			&& ft_strcmp(p->com[i + 1], "<<"))
+		if (ft_arraybilen(pipex->com) > i && ft_strcmp(pipex->com[i + 1], ">")
+			&& ft_strcmp(pipex->com[i + 1], ">>")
+			&& ft_strcmp(pipex->com[i + 1], "<")
+			&& ft_strcmp(pipex->com[i + 1], "<<"))
 		{
-			if (p->stdout_file != NULL)
-				free(p->stdout_file);
-			p->stdout_file = ft_strdup(p->com[i + 1]);
-			p->append = 1;
+			if (pipex->stdout_file != NULL)
+				free(pipex->stdout_file);
+			pipex->stdout_file = ft_strdup(pipex->com[i + 1]);
+			pipex->append = 1;
 			i += 2;
 		}
 		else
 		{
 			printf("bash: syntax error near unexpected token `>'\n");
 			g_mini.last_error = 258;
-			ft_frlloc(p->com);
+			ft_frlloc(pipex->com);
 			return (-1);
 		}
 	}
 	return (i);
 }
 
-void	pipex(char **argv, int count, int a)
+void	pipex(char **argv, int count, int a, int index)
 {
 	t_pipe	pipex;
-	int		index;
 
 	pipex = init_pipex(count);
 	while (argv[++a])
@@ -135,9 +135,9 @@ void	pipex(char **argv, int count, int a)
 				return ;
 			index = pipex_4(&pipex, index);
 		}
-		pipex.exe[a].c_split = ft_split(pipex.tomas, ' ');
+		pipex.exe[a].c_split = ft_split_minishell(pipex.tomas);
 		free_pipex(&pipex);
 	}
-	if (pipex.heredoc == 1 || pipex.exe[0].c_split != NULL)
+	if (pipex.exe[0].c_split != NULL || pipex.heredoc == 1)
 		create_processes(pipex);
 }

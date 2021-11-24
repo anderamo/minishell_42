@@ -6,12 +6,16 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 18:17:23 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 10:45:22 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
+/*
+-hacer funcionar el heredoc
+-separar funciones ft_split_minishell.c
+-crear el echo
+*/
 int	get_path(char **envp)
 {
 	int		i;
@@ -115,10 +119,11 @@ int	main(int a, char **argv, char **env)
 		{
 			if (!builtins_no_pipe(g_mini.line, NULL))
 			{
-				g_mini.split_pipe = ft_split(g_mini.line, '|');
-				pipex(g_mini.split_pipe, ft_arraybilen(g_mini.split_pipe), -1);
-				ft_frlloc(g_mini.split_pipe);
+				g_mini.s_pipe = ft_split(g_mini.line, '|');
+				pipex(g_mini.s_pipe, ft_arraybilen(g_mini.s_pipe), -1, 0);
+				ft_frlloc(g_mini.s_pipe);
 			}
+			free(g_mini.line);
 		}
 	}
 	ft_frlloc(g_mini.env);

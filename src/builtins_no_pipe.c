@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_no_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/17 18:19:55 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:52:05 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_cd(char *next_path, int i)
-{
-	char	**split;
-
-	if (!next_path || !ft_strcmp(next_path, "~"))
-	{
-		while (g_mini.env[++i])
-		{
-			split = ft_split(g_mini.env[i], '=');
-			if (!strcmp(split[0], "HOME"))
-				break ;
-			ft_frlloc(split);
-		}
-		chdir(split[1]);
-		ft_frlloc(split);
-	}
-	else
-	{
-		if (chdir(next_path))
-		{
-			perror("chdir");
-			g_mini.last_error = 1;
-		}
-	}
-	ft_pwd(1);
-}
 
 int	ft_export(char *str)
 {

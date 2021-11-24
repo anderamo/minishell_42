@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 15:35:05 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:56:50 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <sys/ioctl.h>
-# include <termios.h> 
 
 # define BUFF 1024
 
@@ -52,14 +50,14 @@ typedef struct s_pipe
 
 typedef struct s_command
 {
-	char	*line;
 	int		options;
+	int		dollar_fail;
 	char	**args;
 }	t_cmd;
 
 typedef struct s_mini
 {
-	char	**split_pipe;
+	char	**s_pipe;
 	char	**env;
 	char	*path;
 	int		last_error;
@@ -80,15 +78,18 @@ int		ft_setenv(char *name, char *value, int replace);
 char	*ft_getenv(char *name);
 char	*ft_strjoin3(char *a, char *b, char *c);
 int		ft_print_env(void);
-char	*find_env(char *src, int *i);
+char	*find_env(char *src, int i);
 void	ft_pwd(int print);
-int		copy_quote(char *dest, char *src, int i, char *error);
+int		ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j);
+int		ft_dollar(t_cmd *cmd, char *src, char c, int j);
 int		parse_arguments(t_cmd *cmd);
 int		check_if_exits(t_pipe pipex, int a);
 char	**ft_frlloc_int(int **tab, int size);
 void	signal_proc(void);
 int		builtins(char **commands);
-void	pipex(char **argv, int count, int a);
+void	ft_cd_old_pwd(int i);
+void	ft_cd(char *next_path, int i);
+void	pipex(char **argv, int count, int a, int index);
 char	*readline(const char *prompt);
 void	ft_heredoc(char *del);
 void	ft_action(int sig);
@@ -101,6 +102,7 @@ void	create_processes(t_pipe pipex);
 void	ft_heredoc(char *del);
 void	child(t_pipe pipex, char **envp, int i, int j);
 int		pipex_3(t_pipe *pipex, int index);
+int		env_len(const char *str, int pos);
 int		ft_stdin_file(t_pipe *pipex);
 void	free_pipex(t_pipe *pipex);
 void	free_processes(t_pipe *pipex);
