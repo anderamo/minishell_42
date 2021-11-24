@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/23 15:01:26 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:13:02 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char			*ft_strndup(char *s, int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strjoin_space(char const *s1, char const *s2);
+char			*ft_strjoin_no_free(char const *s1, char const *s2);
 char			*ft_chrjoin(char const *s1, char chr);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
@@ -65,6 +66,8 @@ char			*ft_itoa(int n);
 char			*ft_itoa_unsint(unsigned int n);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void			ft_putchar_fd(char c, int fd);
+void			count_redireccion(int *i, int *count, char *s);
+int				count_comma(int *i, int *quote, char *s);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
@@ -72,8 +75,6 @@ t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **alst, t_list *new);
 int				ft_lstsize(t_list *lst);
 t_list			*ft_lstlast(t_list *lst);
-void			count_redireccion(int *i, int *count, char *s);
-int				count_comma(int *i, int *quote, char *s);
 void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
