@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 11:26:16 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:34:26 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 typedef struct s_exe
 {
 	char	**c_split;
+	char	*stdin_file;
+	char	*stdout_file;
+	int		append;
+	int		heredoc;
 }	t_exe;
 
 typedef struct s_pipe
@@ -38,12 +42,8 @@ typedef struct s_pipe
 	int		**pipes;
 	int		*pid;
 	int		procecess_num;
-	char	*stdin_file;
-	char	*stdout_file;
 	char	**com;
 	char	*tomas;
-	int		append;
-	int		heredoc;
 	t_exe	*exe;
 	char	*bin;
 }	t_pipe;
@@ -98,16 +98,16 @@ int		ft_arraybilen(char **array);
 int		ft_last_error(void);
 char	*get_bin_path(char **envp, char *command);
 int		get_path(char **envp);
-void	create_processes(t_pipe pipex);
+void	create_processes(t_pipe pipex, int i);
 void	ft_heredoc(char *del);
 void	child(t_pipe pipex, char **envp, int i, int j);
-int		pipex_3(t_pipe *pipex, int index);
+int		pipex_3(t_pipe *pipex, int index, int a);
 int		env_len(const char *str, int pos);
-int		ft_stdin_file(t_pipe *pipex);
+int		ft_stdin_file(t_pipe *pipex, int i);
 void	free_pipex(t_pipe *pipex);
 void	free_processes(t_pipe *pipex);
 int		free_builtins(t_cmd	*cmd);
-t_pipe	init_pipex(int a);
+t_pipe	init_pipex(int a, int i);
 int		pipex_4(t_pipe *pipex, int po);
 void	close_child(t_pipe *pipex, int i, int j);
 void	close_father(t_pipe *pipex);

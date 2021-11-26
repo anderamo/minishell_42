@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:25:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 15:03:14 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:21:38 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	close_child(t_pipe *pipex, int i, int j)
 	}
 	dup2(pipex->pipes[i][0], 0);
 	close(pipex->pipes[i][0]);
-	if (pipex->stdout_file != NULL)
-		dup2(pipex->pipes[i + 1][1], 1);
+	dup2(pipex->pipes[i + 1][1], 1);
 	close(pipex->pipes[i + 1][1]);
 }
 

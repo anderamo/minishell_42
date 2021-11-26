@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 15:53:07 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:37:35 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,59 +51,63 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 	exit (127);
 }
 
-int	ft_stdin_file(t_pipe *pipex)
+int	ft_stdin_file(t_pipe *pipex, int i)
 {
-	close(pipex->pipes[0][0]);
-	if (pipex->heredoc == 1)
-		pipex->pipes[0][0] = open("heredoc_tmp", O_RDONLY);
+	close(pipex->pipes[i][0]);
+	if (pipex->exe[i].heredoc == 1)
+		pipex->pipes[i][0] = open("heredoc_tmp", O_RDONLY);
 	else
 	{
-		if (pipex->stdin_file != NULL)
+		if (pipex->exe[i].stdin_file != NULL)
 		{
-			pipex->pipes[0][0] = open(pipex->stdin_file, O_RDONLY);
-			if (pipex->pipes[0][0] < 0)
+			pipex->pipes[i][0] = open(pipex->exe[i].stdin_file, O_RDONLY);
+			if (pipex->pipes[i][0] < 0)
 			{
 				printf("bash: %s: No such file or directory\n",
-					pipex->stdin_file);
-				free(pipex->stdin_file);
+					pipex->exe[i].stdin_file);
+				free(pipex->exe[i].stdin_file);
 				g_mini.last_error = 1;
 				return (0);
 			}
-			free(pipex->stdin_file);
+			free(pipex->exe[i].stdin_file);
 		}
 		else
-			pipex->pipes[0][0] = open(pipex->stdin_file, O_RDONLY);
+			pipex->pipes[i][0] = open(pipex->exe[i].stdin_file, O_RDONLY);
 	}
 	return (1);
 }
 
-void	ft_stdout_file(t_pipe *pipex)
+void	ft_stdout_file(t_pipe *pipex, int i)
 {
-	if (pipex->heredoc == 1 && pipex->exe[0].c_split == NULL)
+	if (pipex->exe[0].heredoc == 1 && pipex->exe[0].c_split == NULL)
 		pipex->exe[0].c_split = ft_split_minishell("cat");
-	close(pipex->pipes[pipex->procecess_num][1]);
-	if (pipex->stdout_file != NULL)
+	close(pipex->pipes[i + 1][1]);
+	if (pipex->exe[i].stdout_file != NULL)
 	{
-		if (pipex->append == 1)
-			pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
+		if (pipex->exe[i].append == 1)
+			pipex->pipes[i + 1][1]
+				= open(pipex->exe[i].stdout_file,
 					O_RDWR | O_APPEND | O_CREAT, 0755);
 		else
-			pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
+			pipex->pipes[i + 1][1]
+				= open(pipex->exe[i].stdout_file,
 					O_RDWR | O_TRUNC | O_CREAT, 0755);
-		free(pipex->stdout_file);
+		free(pipex->exe[i].stdout_file);
 	}
 	else
-		pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
+		pipex->pipes[i + 1][1]
+			= open(pipex->exe[i].stdout_file,
 				O_RDONLY);
 }
 
-void	create_processes(t_pipe pipex)
+void	create_processes(t_pipe pipex, int i)
 {
-	int		i;
-
-	if (!(ft_stdin_file(&pipex)))
-		return ;
-	ft_stdout_file(&pipex);
+	while (++i < pipex.procecess_num)
+	{
+		if (!(ft_stdin_file(&pipex, i)))
+			return ;
+		ft_stdout_file(&pipex, i);
+	}
 	i = -1;
 	while (++i < pipex.procecess_num)
 	{
@@ -118,6 +122,5 @@ void	create_processes(t_pipe pipex)
 	wait (0);
 	free_processes(&pipex);
 	g_mini.pid = 0;
-	if (pipex.heredoc == 1)
-		unlink("heredoc_tmp");
+	unlink("heredoc_tmp");
 }
