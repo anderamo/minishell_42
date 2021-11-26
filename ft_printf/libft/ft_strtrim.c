@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/02 11:32:38 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/06/03 13:02:45 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/25 04:46:10 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static size_t	ft_end(char const *str, char const *character, size_t size)
 	return (size);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	size_t		s1_size;
 	size_t		start;
@@ -65,11 +65,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	else
 		s1_size = end - start + 1;
 	str = malloc((s1_size + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
 	if (s1_size <= 0)
 		return (str);
 	ft_memcpy(str, s1 + start, s1_size);
 	str[s1_size] = '\0';
+	free(s1);
 	return (str);
 }

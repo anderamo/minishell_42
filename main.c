@@ -6,16 +6,12 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/24 10:45:22 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/25 03:12:11 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-/*
--hacer funcionar el heredoc
--separar funciones ft_split_minishell.c
--crear el echo
-*/
+
 int	get_path(char **envp)
 {
 	int		i;
@@ -107,9 +103,7 @@ int	main(int a, char **argv, char **env)
 	init_env(env);
 	while (1 || argv || a)
 	{
-		write_pwd();
-		g_mini.line = readline(g_mini.prompt);
-		free(g_mini.prompt);
+		g_mini.line = readline("minishell > ");
 		while (g_mini.line && (ft_isspace(*g_mini.line)))
 			g_mini.line++;
 		if (!ft_strncmp(g_mini.line, "exit ", 5)

@@ -6,29 +6,57 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/24 10:55:11 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/25 04:57:01 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child(t_pipe pipex, char **envp, int i, int j)
+void	delete_commas(t_pipe *pipex, int i, int j)
 {
-	while (j < pipex.procecess_num + 1)
+	char	*c;
+
+	if (ft_strcmp(pipex->exe[i].c_split[j], "awk"))
+	{
+		j++;
+		while ((int)ft_array_size(pipex->exe[i].c_split) > j)
+		{
+			if(pipex->exe[i].c_split[j][0] == '\"' || pipex->exe[i].c_split[j][0] == '\'')
+			{
+				c = malloc(sizeof(char) * (2));
+				c[0] = pipex->exe[i].c_split[j][0];
+				c[1] = '\0';
+				pipex->exe[i].c_split[j] = ft_strtrim(pipex->exe[i].c_split[j], c);
+				//free(c);
+			}
+			j++;
+		}
+	}
+}
+
+void	close_child(t_pipe *pipex, int i, int j)
+{
+	while (j < pipex->procecess_num + 1)
 	{
 		if (j != i)
-			close(pipex.pipes[j][0]);
+			close(pipex->pipes[j][0]);
 		if (j != i + 1)
-			close(pipex.pipes[j][1]);
+			close(pipex->pipes[j][1]);
 		j++;
 	}
-	dup2(pipex.pipes[i][0], 0);
-	close(pipex.pipes[i][0]);
-	dup2(pipex.pipes[i + 1][1], 1);
-	close(pipex.pipes[i + 1][1]);
+	dup2(pipex->pipes[i][0], 0);
+	close(pipex->pipes[i][0]);
+	dup2(pipex->pipes[i + 1][1], 1);
+	close(pipex->pipes[i + 1][1]);
+}
+
+void	child(t_pipe pipex, char **envp, int i, int j)
+{
+	close_child(&pipex, i, j);
 	pipex.bin = get_bin_path(envp, pipex.exe[i].c_split[0]);
 	if (!builtins(pipex.exe[i].c_split))
 	{
+		delete_commas(&pipex, i, j);
 		if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
 			printf ("bash: %s: command not found\n", pipex.exe[i].c_split[0]);
 	}
@@ -87,6 +115,7 @@ void	close_father(t_pipe *pipex)
 {
 	int	j;
 	int	i;
+	int status;
 
 	i = 0;
 	j = 0;
@@ -99,6 +128,11 @@ void	close_father(t_pipe *pipex)
 	}
 	if (!ft_strcmp(pipex->exe[i].c_split[0], "$?"))
 		g_mini.last_error = 127;
+	while (1)
+	{
+		if (wait(&status) <= 0)
+			break ;
+	}
 }
 
 void	create_processes(t_pipe pipex)
