@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:34:26 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:22:29 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_mini
 	char	*line;
 	pid_t	pid;
 	char	*error;
+	int		fd;
+	int		stop;
 }	t_mini;
 
 t_mini	g_mini;
@@ -74,6 +76,7 @@ int		init_env(char **env);
 size_t	ft_array_size(char **arr);
 int		ft_frlloc(char **tab);
 void	ft_frlloc_n(char **tab, size_t n);
+void	free_proc(t_pipe *pipex);
 int		ft_setenv(char *name, char *value, int replace);
 char	*ft_getenv(char *name);
 char	*ft_strjoin3(char *a, char *b, char *c);

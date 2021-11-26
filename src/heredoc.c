@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 16:24:51 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 15:59:35 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:56:22 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 void	ft_heredoc(char *del)
 {
 	char	*line;
-	int		fd;
 
-	fd = open("heredoc_tmp", O_RDWR | O_TRUNC | O_CREAT, 0644);
-	while (1)
+	g_mini.fd = open("heredoc_tmp", O_RDWR | O_TRUNC | O_CREAT, 0644);
+	g_mini.pid = 1;
+	line = readline("> ");
+	while (line && ft_strcmp(line, del))
 	{
-		line = readline("\033[36mheredoc> \033[0m");
-		if (!ft_strcmp(line, del))
+		if (g_mini.stop)
 			break ;
-		write (fd, line, ft_strlen(line));
-		write (fd, "\n", 1);
+		write (g_mini.fd, line, ft_strlen(line));
+		write (g_mini.fd, "\n", 1);
+		free(line);
+		line = readline("> ");
 	}
+	free(line);
+	g_mini.pid = 0;
+	close(g_mini.fd);
 }

@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:27:22 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:19:26 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	pipex(char **argv, int count, int a, int index)
 	{
 		pipex.com = ft_split_minishell(argv[a]);
 		if (!pipex.com)
-			return ;
+			return (free_proc(&pipex));
 		index = 0;
 		pipex.tomas = NULL;
 		while (ft_arraybilen(pipex.com) > index && pipex.com[index])
