@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/25 04:57:01 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 15:53:07 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,24 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 {
 	char	*c;
 
-	if (ft_strcmp(pipex->exe[i].c_split[j], "awk"))
+	if (ft_strcmp(pipex->exe[i].c_split[j], "awk")
+		|| ft_strcmp(pipex->exe[i].c_split[j], "echo"))
 	{
 		j++;
 		while ((int)ft_array_size(pipex->exe[i].c_split) > j)
 		{
-			if(pipex->exe[i].c_split[j][0] == '\"' || pipex->exe[i].c_split[j][0] == '\'')
+			if (pipex->exe[i].c_split[j][0] == '\"'
+					|| pipex->exe[i].c_split[j][0] == '\'')
 			{
 				c = malloc(sizeof(char) * (2));
 				c[0] = pipex->exe[i].c_split[j][0];
 				c[1] = '\0';
-				pipex->exe[i].c_split[j] = ft_strtrim(pipex->exe[i].c_split[j], c);
-				//free(c);
+				pipex->exe[i].c_split[j]
+					= ft_strtrim(pipex->exe[i].c_split[j], c);
 			}
 			j++;
 		}
 	}
-}
-
-void	close_child(t_pipe *pipex, int i, int j)
-{
-	while (j < pipex->procecess_num + 1)
-	{
-		if (j != i)
-			close(pipex->pipes[j][0]);
-		if (j != i + 1)
-			close(pipex->pipes[j][1]);
-		j++;
-	}
-	dup2(pipex->pipes[i][0], 0);
-	close(pipex->pipes[i][0]);
-	dup2(pipex->pipes[i + 1][1], 1);
-	close(pipex->pipes[i + 1][1]);
 }
 
 void	child(t_pipe pipex, char **envp, int i, int j)
@@ -109,30 +95,6 @@ void	ft_stdout_file(t_pipe *pipex)
 	else
 		pipex->pipes[pipex->procecess_num][1] = open(pipex->stdout_file,
 				O_RDONLY);
-}
-
-void	close_father(t_pipe *pipex)
-{
-	int	j;
-	int	i;
-	int status;
-
-	i = 0;
-	j = 0;
-	while (j < pipex->procecess_num + 1)
-	{
-		close(pipex->pipes[j][1]);
-		if (j != 0)
-			close(pipex->pipes[j][0]);
-			j++;
-	}
-	if (!ft_strcmp(pipex->exe[i].c_split[0], "$?"))
-		g_mini.last_error = 127;
-	while (1)
-	{
-		if (wait(&status) <= 0)
-			break ;
-	}
 }
 
 void	create_processes(t_pipe pipex)

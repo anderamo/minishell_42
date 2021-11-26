@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/24 10:40:39 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 11:43:38 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j)
 		{
 			if (commands[i][j] == '$')
 				j += ft_dollar(cmd, commands[i], c, j + 1);
-			else if (commands[i][j] != '\"')
+			else if (commands[i][j] != c)
 				write(1, &commands[i][j], 1);
 			if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
 				j++;

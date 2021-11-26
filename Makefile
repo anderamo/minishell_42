@@ -9,6 +9,7 @@ MANDATORY	=	main.c\
 				src/pipex.c\
 				src/pipex_2.c\
 				src/pipex_processes.c\
+				src/close_fd.c\
 				src/array.c\
 				src/heredoc.c\
 				src/arguments.c\

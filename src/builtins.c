@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/24 18:54:52 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 12:20:56 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int	ft_dollar(t_cmd *cmd, char *src, char c, int j)
 		}
 	}
 	else
-		return (write(1, "$", 1));
+	{
+		write(1, "$", 1);
+		return (0);
+	}
 }
 
 void	ft_echo(char **commands, t_cmd *cmd, size_t i)

@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/25 03:12:11 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 12:25:39 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	main(int a, char **argv, char **env)
 				pipex(g_mini.s_pipe, ft_arraybilen(g_mini.s_pipe), -1, 0);
 				ft_frlloc(g_mini.s_pipe);
 			}
-			free(g_mini.line);
+			//free(g_mini.line);
 		}
 	}
 	ft_frlloc(g_mini.env);

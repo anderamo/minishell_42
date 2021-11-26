@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:56:43 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/24 14:09:01 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 12:09:07 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,29 +135,3 @@ char	**ft_split_minishell(char *s)
 	array[array_row] = NULL;
 	return (array);
 }
-
-/*
-	printf("s -----------> %s\n", s);
-	printf("array_row ---> %zu\n", array_row);
-int	main(int argc, char **argv)
-{
-	char	**split;
-	char	*line;
-
-	if (argc > 0)
-		split = ft_split_minishell("echo \"hola '$PWD'\"");
-	else
-		return (1);
-	if (!split)
-		return (1);
-	int i = 0;
-	while (split[i])
-	{
-		printf("split%d ---------> %s\n", i, split[i]);
-		free(split[i]);
-		i++;
-	}
-	free(split);
-	return (0);
-}
-*/

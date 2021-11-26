@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:56:50 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/26 11:26:16 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ void	free_processes(t_pipe *pipex);
 int		free_builtins(t_cmd	*cmd);
 t_pipe	init_pipex(int a);
 int		pipex_4(t_pipe *pipex, int po);
+void	close_child(t_pipe *pipex, int i, int j);
+void	close_father(t_pipe *pipex);
 
 #endif
