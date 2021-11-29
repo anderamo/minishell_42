@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:37:35 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/29 14:26:51 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 	if (ft_strcmp(pipex->exe[i].c_split[j], "awk")
 		|| ft_strcmp(pipex->exe[i].c_split[j], "echo"))
 	{
-		j++;
-		while ((int)ft_array_size(pipex->exe[i].c_split) > j)
+		while ((int)ft_array_size(pipex->exe[i].c_split) > ++j)
 		{
+			if (!ft_strcmp(pipex->exe[i].c_split[j], "$?"))
+			{
+				free(pipex->exe[i].c_split[j]);
+				pipex->exe[i].c_split[j]
+					= ft_strdup_free(ft_itoa(g_mini.last_error));
+			}
 			if (pipex->exe[i].c_split[j][0] == '\"'
 					|| pipex->exe[i].c_split[j][0] == '\'')
 			{
@@ -31,7 +36,6 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 				pipex->exe[i].c_split[j]
 					= ft_strtrim(pipex->exe[i].c_split[j], c);
 			}
-			j++;
 		}
 	}
 }
@@ -51,10 +55,10 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 	exit (127);
 }
 
-int	ft_stdin_file(t_pipe *pipex, int i)
+int	ft_stdin_file_2(t_pipe *pipex, int i)
 {
 	close(pipex->pipes[i][0]);
-	if (pipex->exe[i].heredoc == 1)
+	if (pipex->exe[0].heredoc == 1)
 		pipex->pipes[i][0] = open("heredoc_tmp", O_RDONLY);
 	else
 	{
@@ -77,10 +81,8 @@ int	ft_stdin_file(t_pipe *pipex, int i)
 	return (1);
 }
 
-void	ft_stdout_file(t_pipe *pipex, int i)
+void	ft_stdout_file_2(t_pipe *pipex, int i)
 {
-	if (pipex->exe[0].heredoc == 1 && pipex->exe[0].c_split == NULL)
-		pipex->exe[0].c_split = ft_split_minishell("cat");
 	close(pipex->pipes[i + 1][1]);
 	if (pipex->exe[i].stdout_file != NULL)
 	{
@@ -102,13 +104,11 @@ void	ft_stdout_file(t_pipe *pipex, int i)
 
 void	create_processes(t_pipe pipex, int i)
 {
-	while (++i < pipex.procecess_num)
-	{
-		if (!(ft_stdin_file(&pipex, i)))
-			return ;
-		ft_stdout_file(&pipex, i);
-	}
-	i = -1;
+	if (!(ft_stdin_file_2(&pipex, 0)))
+		return ;
+	ft_stdout_file_2(&pipex, pipex.procecess_num - 1);
+	if (pipex.exe[0].heredoc == 1 && pipex.exe[0].c_split == NULL)
+		pipex.exe[0].c_split = ft_split_minishell("cat");
 	while (++i < pipex.procecess_num)
 	{
 		pipex.pid[i] = fork();
@@ -120,7 +120,8 @@ void	create_processes(t_pipe pipex, int i)
 	}
 	close_father(&pipex);
 	wait (0);
+	if (pipex.exe[0].heredoc == 1)
+		unlink("heredoc_tmp");
 	free_processes(&pipex);
 	g_mini.pid = 0;
-	unlink("heredoc_tmp");
 }

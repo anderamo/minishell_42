@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:39:18 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/27 13:31:56 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int a, char **argv, char **env)
 		{
 			if (!builtins_no_pipe(g_mini.line, NULL))
 			{
-				g_mini.s_pipe = ft_split(g_mini.line, '|');
+				g_mini.s_pipe = ft_split_pipe(g_mini.line);
 				pipex(g_mini.s_pipe, ft_arraybilen(g_mini.s_pipe), -1, 0);
 				ft_frlloc(g_mini.s_pipe);
 			}

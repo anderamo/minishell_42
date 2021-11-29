@@ -26,6 +26,7 @@ SRCS	=	ft_strlen.c\
 			ft_isascii.c\
 			ft_calloc.c\
 			ft_strdup.c\
+			ft_strdup_free.c\
 			ft_strndup.c\
 			ft_substr.c\
 			ft_strjoin.c\
@@ -35,6 +36,7 @@ SRCS	=	ft_strlen.c\
 			ft_strtrim.c\
 			ft_split.c\
 			ft_split_comma.c\
+			ft_split_pipe.c\
 			ft_split_minishell.c\
 			ft_split_minishell_2.c\
 			ft_itoa.c\

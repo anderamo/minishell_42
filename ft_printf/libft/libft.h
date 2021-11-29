@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/25 04:39:07 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/29 14:23:01 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			*ft_memmove(void *destination, const void *source, size_t num);
 int				ft_isascii(int c);
 void			*ft_calloc(size_t nitems, size_t size);
 char			*ft_strdup(const char *src);
+char			*ft_strdup_free(char *src);
 char			*ft_strndup(char *s, int n);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
@@ -60,6 +61,7 @@ char			*ft_strjoin_no_free(char const *s1, char const *s2);
 char			*ft_chrjoin(char const *s1, char chr);
 char			*ft_strtrim(char *s1, char *set);
 char			**ft_split(char const *s, char c);
+char			**ft_split_pipe(char const *s);
 char			**ft_split_comma(char *s, char c);
 char			**ft_split_minishell(char *s);
 char			*ft_itoa(int n);
