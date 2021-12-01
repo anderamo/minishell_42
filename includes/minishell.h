@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 10:13:13 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:53:19 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_command
 	int		options;
 	int		dollar_fail;
 	char	**args;
+	char	*line;
 }	t_cmd;
 
 typedef struct s_mini
@@ -92,6 +93,7 @@ int		check_if_exits(t_pipe pipex, int a);
 char	**ft_frlloc_int(int **tab, int size);
 void	signal_proc(void);
 int		builtins(char **commands);
+t_cmd   *new_cmd(void);
 void	ft_cd_old_pwd(int i);
 void	ft_cd(char *next_path, int i);
 void	pipex(char **argv, int count, int a, int index);
