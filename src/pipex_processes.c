@@ -6,7 +6,11 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/12/01 16:41:08 by aamorin-         ###   ########.fr       */
+=======
+/*   Updated: 2021/11/30 20:04:34 by migarcia         ###   ########.fr       */
+>>>>>>> 94b1de894bc284fa5e8dbab2063ec9f8dacf9f3d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +54,7 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 		if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
 			printf ("bash: %s: command not found\n", pipex.exe[i].c_split[0]);
 	}
-	free(pipex.bin);
+//	free(pipex.bin);
 	g_mini.last_error = 127;
 	exit (127);
 }
@@ -117,6 +121,13 @@ void	create_processes(t_pipe pipex, int i)
 			break ;
 		if (pipex.pid[i] == 0)
 			child(pipex, g_mini.env, i, 0);
+		else
+		{
+			pipex.bin = get_bin_path(g_mini.env, pipex.exe[i].c_split[0]);
+			if (access(pipex.bin, X_OK) == -1)
+				g_mini.last_error = 127;
+			free(pipex.bin);
+		}
 	}
 	close_father(&pipex);
 	wait (0);

@@ -6,20 +6,56 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/24 18:52:05 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 18:19:06 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int ft_quote(char **commands, t_cmd *cmd, size_t i, int j)
+{
+    char    c;
+
+    if (commands[i][j] == '\'' || commands[i][j] == '\"')
+    {
+        c = commands[i][j];
+        j++;
+        while ((int)ft_strlen(commands[i]) > j)
+        {
+            if (commands[i][j] != c)
+                ft_strncat(cmd->line, &commands[i][j], 1);
+            if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
+                j++;
+            j++;
+        }
+    }
+    else
+        write(1, &commands[i][j++], 1);
+    return (j);
+}
+
 int	ft_export(char *str)
 {
 	char	**split_str;
+	t_cmd   *cmd;
+	int		i;
+	int		j;
 
-	if (str)
+	if (str[1])
 	{
+		cmd = new_cmd();
 		split_str = ft_split(str, '=');
-		ft_setenv(split_str[0], split_str[1], 1);
+		i = 1;
+		while ((int)ft_array_size(split_str) > i)
+	    {
+	        j = 0;
+	        while ((int)ft_strlen(split_str[i]) > j && split_str[i])
+	            j = ft_quote(split_str, cmd, i, j);
+	        if ((int)ft_array_size(split_str) - 1 != i && cmd->dollar_fail == 0)
+	            ft_strncat(cmd->line, &split_str[i][j++], 1);
+	        i++;
+	    }
+		ft_setenv(split_str[0], cmd->line, 1);
 		ft_frlloc(split_str);
 	}
 	else
@@ -76,7 +112,9 @@ int	builtins_no_pipe(char *line, char **commands)
 	else
 	{
 		add_history(g_mini.line);
-		commands = ft_split(line, ' ');
+		commands = ft_split_minishell(line);
+		if (commands == NULL)
+			return (0);
 		if (!ft_strcmp(commands[0], "cd"))
 		{
 			ft_cd(commands[1], -1);
@@ -84,7 +122,7 @@ int	builtins_no_pipe(char *line, char **commands)
 		}
 		if (!ft_strcmp(commands[0], "export"))
 		{
-			ft_export(commands[1]);
+			ft_export(line);
 			return (ft_frlloc(commands));
 		}
 		if (!ft_strcmp(commands[0], "unset"))

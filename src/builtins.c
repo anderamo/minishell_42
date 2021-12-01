@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/26 12:20:56 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:53:01 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ t_cmd	*new_cmd(void)
 	cmd->options = 0;
 	cmd->dollar_fail = 0;
 	cmd->args = NULL;
+	cmd->line = ft_calloc(BUFF, sizeof(char));
+    if (!cmd->line)
+    {
+        free(cmd->line);
+        return (NULL);
+    }
 	return (cmd);
 }
 
