@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 14:26:51 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:41:08 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ void	create_processes(t_pipe pipex, int i)
 	}
 	close_father(&pipex);
 	wait (0);
-	if (pipex.exe[0].heredoc == 1)
-		unlink("heredoc_tmp");
+	unlink("heredoc_tmp");
 	free_processes(&pipex);
 	g_mini.pid = 0;
 }

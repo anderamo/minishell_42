@@ -27,7 +27,7 @@ SANITIZE	= -fsanitize=address -g3
 $(NAME):
 		$(MAKE) -C ./ft_printf
 		cp ft_printf/libftprintf.a .
-		$(CC) $(FLAGS) $(INC_1) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
+		$(CC) $(FLAGS) $(INC_1) $(SANITIZE) $(MANDATORY) -lreadline libftprintf.a -o $(NAME)
 
 all: $(NAME)
 

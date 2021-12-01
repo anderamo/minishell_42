@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 18:51:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:19:01 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 15:58:57 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ void	ft_cd_relative(char *next_path, int i, size_t len)
 	while (g_mini.env[++i])
 	{
 		split = ft_split(g_mini.env[i], '=');
-		if (!strcmp(split[0], "HOME"))
+		if (!ft_strcmp(split[0], "HOME"))
 			break ;
+		ft_frlloc(split);
 	}
 	absol = ft_strjoin_no_free(split[1], tmp);
 	if (split)
 		ft_frlloc(split);
 	free(tmp);
 	chdir(absol);
+	free(absol);
 }
 
 void	ft_cd_home(int i)

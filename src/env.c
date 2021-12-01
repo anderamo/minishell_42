@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:45 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/11 17:21:43 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 18:08:51 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_getenv(char *name)
 	if (!name)
 		return (NULL);
 	len = ft_strlen(name);
-	i = 1;
+	i = 0;
 	while (g_mini.env[i])
 	{
 		if (ft_strlen(name) >= ft_len_to_char(g_mini.env[i], '=')
