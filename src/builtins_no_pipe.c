@@ -6,61 +6,59 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/12/01 18:19:06 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:44:15 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_quote(char **commands, t_cmd *cmd, size_t i, int j)
+int	ft_quote(char **commands, t_cmd *cmd, size_t i, int j)
 {
-    char    c;
+	char	c;
 
-    if (commands[i][j] == '\'' || commands[i][j] == '\"')
-    {
-        c = commands[i][j];
-        j++;
-        while ((int)ft_strlen(commands[i]) > j)
-        {
-            if (commands[i][j] != c)
-                ft_strncat(cmd->line, &commands[i][j], 1);
-            if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
-                j++;
-            j++;
-        }
-    }
-    else
-        write(1, &commands[i][j++], 1);
-    return (j);
+	if (commands[i][j] == '\'' || commands[i][j] == '\"')
+	{
+		c = commands[i][j];
+		j++;
+		while ((int)ft_strlen(commands[i]) > j)
+		{
+			if (commands[i][j] != c)
+				ft_strncat(cmd->line, &commands[i][j], 1);
+			if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
+				j++;
+			j++;
+		}
+	}
+	return (j);
 }
 
-int	ft_export(char *str)
+void	ft_export(char *str, int i, int j)
 {
-	char	**split_str;
-	t_cmd   *cmd;
-	int		i;
-	int		j;
+	char	**split;
+	t_cmd	*cmd;
 
 	if (str[1])
 	{
 		cmd = new_cmd();
-		split_str = ft_split(str, '=');
-		i = 1;
-		while ((int)ft_array_size(split_str) > i)
-	    {
-	        j = 0;
-	        while ((int)ft_strlen(split_str[i]) > j && split_str[i])
-	            j = ft_quote(split_str, cmd, i, j);
-	        if ((int)ft_array_size(split_str) - 1 != i && cmd->dollar_fail == 0)
-	            ft_strncat(cmd->line, &split_str[i][j++], 1);
-	        i++;
-	    }
-		ft_setenv(split_str[0], cmd->line, 1);
-		ft_frlloc(split_str);
+		if (ft_strchr(str, '='))
+		{
+			split = ft_split(str, '=');
+			while ((int)ft_array_size(split) > ++i)
+			{
+				j = 0;
+				if (split[i][j] == '\'' || split[i][j] == '\"')
+					j = ft_quote(split, cmd, i, j);
+				else
+					ft_strncat(cmd->line, split[i], ft_strlen(split[i]));
+			}
+			ft_setenv(split[0], cmd->line, 1);
+			ft_frlloc(split);
+		}
+		free(cmd->line);
+		free(cmd);
 	}
 	else
 		printf("ERROR: Wrong export format\n");
-	return (1);
 }
 
 char	**ft_unset(char *str)
@@ -107,30 +105,24 @@ int	ft_buil_unset(char *command)
 
 int	builtins_no_pipe(char *line, char **commands)
 {
-	if (!ft_strcmp(line, ""))
-		return (0);
-	else
+	if (!ft_strcmp(commands[0], "cd"))
 	{
-		add_history(g_mini.line);
-		commands = ft_split_minishell(line);
-		if (commands == NULL)
-			return (0);
-		if (!ft_strcmp(commands[0], "cd"))
-		{
-			ft_cd(commands[1], -1);
-			return (ft_frlloc(commands));
-		}
-		if (!ft_strcmp(commands[0], "export"))
-		{
-			ft_export(line);
-			return (ft_frlloc(commands));
-		}
-		if (!ft_strcmp(commands[0], "unset"))
-		{
-			ft_buil_unset(commands[1]);
-			return (ft_frlloc(commands));
-		}
-		ft_frlloc(commands);
-		return (0);
+		ft_cd(commands[1], -1);
+		return (ft_frlloc(commands));
 	}
+	if (!ft_strcmp(commands[0], "export"))
+	{
+		if (!ft_strncmp(commands[0], "\'", 1)
+			|| !ft_strncmp(commands[0], "\"", 1))
+			ft_export(line, 0, 0);
+		else
+			ft_export(commands[1], 0, 0);
+		return (ft_frlloc(commands));
+	}
+	if (!ft_strcmp(commands[0], "unset"))
+	{
+		ft_buil_unset(commands[1]);
+		return (ft_frlloc(commands));
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 10:59:47 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 14:23:01 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:36:55 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int				ft_isprint(int str);
 int				ft_isdigit(int str);
 int				ft_isalnum(int str);
 int				ft_isspace(char c);
+int				ft_isnumber(char	*str);
 int				ft_toupper(int str);
 int				ft_tolower(int str);
 char			*ft_str_tolower(char	*str);

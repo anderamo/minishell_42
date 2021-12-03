@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:51:04 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/30 20:04:37 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:30:10 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,28 @@ char	*find_env(char *src, int pos)
 
 int	ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j)
 {
-	char	c;
-
 	if (commands[i][j] == '\'' || commands[i][j] == '\"')
 	{
-		c = commands[i][j];
-		j++;
-		while ((int)ft_strlen(commands[i]) > j)
+		if (commands[i][j] == '\"')
 		{
-			if (commands[i][j] == '$')
-				j += ft_dollar(cmd, commands[i], c, j + 1);
-			else if (commands[i][j] != c)
-				write(1, &commands[i][j], 1);
-			if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
-				j++;
 			j++;
+			while (commands[i][j] && commands[i][j] != '\"')
+			{
+				if (commands[i][j] == '$')
+					j += ft_dollar(cmd, commands[i], '\"', j + 1);
+				else if (commands[i][j] != '\"')
+					write(1, &commands[i][j], 1);
+				j++;
+			}
+		}
+		if (commands[i][j] == '\'')
+		{
+			while (commands[i][++j] && commands[i][j] != '\'')
+				write(1, &commands[i][j], 1);
 		}
 	}
 	else if (commands[i][j] == '$')
-		j += ft_dollar(cmd, commands[i], '\"', j + 1) + 1;
+		j += ft_dollar(cmd, commands[i], '\"', j + 1);
 	else
 		write(1, &commands[i][j++], 1);
 	return (j);

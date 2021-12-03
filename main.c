@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/01 18:15:03 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:39:25 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_bin_path(char **envp, char *command)
 	char	*bin;
 
 	if (!ft_strncmp(command, "/", 1))
-		return (command);
+		return (ft_strdup(command));
 	i = get_path(envp);
 	j = -1;
 	path_split = ft_split(envp[i] + 5, ':');
@@ -100,6 +100,8 @@ void	write_pwd(void)
 
 int	main(int a, char **argv, char **env)
 {
+	t_pipe	pepe;
+
 	init_env(env);
 	while (1 || argv || a)
 	{
@@ -111,12 +113,12 @@ int	main(int a, char **argv, char **env)
 			break ;
 		if (ft_strcmp(g_mini.line, ""))
 		{
-			if (!builtins_no_pipe(g_mini.line, NULL))
-			{
-				g_mini.s_pipe = ft_split_pipe(g_mini.line);
-				pipex(g_mini.s_pipe, ft_arraybilen(g_mini.s_pipe), -1, 0);
-				ft_frlloc(g_mini.s_pipe);
-			}
+			add_history(g_mini.line);
+			g_mini.s_pipe = ft_split_pipe(g_mini.line);
+			pepe = init_pipex(ft_arraybilen(g_mini.s_pipe), -1);
+			pipex(g_mini.s_pipe, pepe, -1, 0);
+			ft_frlloc(g_mini.s_pipe);
+			free_processes(&pepe);
 		}
 	}
 	ft_frlloc(g_mini.env);

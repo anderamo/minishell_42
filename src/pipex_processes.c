@@ -6,11 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/12/01 16:41:08 by aamorin-         ###   ########.fr       */
-=======
-/*   Updated: 2021/11/30 20:04:34 by migarcia         ###   ########.fr       */
->>>>>>> 94b1de894bc284fa5e8dbab2063ec9f8dacf9f3d
+/*   Updated: 2021/12/02 18:39:33 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +43,7 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 void	child(t_pipe pipex, char **envp, int i, int j)
 {
 	close_child(&pipex, i, j);
+	pipex.exe[i].c_split[0] = ft_str_tolower(pipex.exe[i].c_split[0]);
 	pipex.bin = get_bin_path(envp, pipex.exe[i].c_split[0]);
 	if (!builtins(pipex.exe[i].c_split))
 	{
@@ -54,7 +51,7 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 		if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
 			printf ("bash: %s: command not found\n", pipex.exe[i].c_split[0]);
 	}
-//	free(pipex.bin);
+	free(pipex.bin);
 	g_mini.last_error = 127;
 	exit (127);
 }
@@ -104,6 +101,8 @@ void	ft_stdout_file_2(t_pipe *pipex, int i)
 		pipex->pipes[i + 1][1]
 			= open(pipex->exe[i].stdout_file,
 				O_RDONLY);
+	if (pipex->exe[0].heredoc == 1 && pipex->exe[0].c_split == NULL)
+		pipex->exe[0].c_split = ft_split_minishell("cat");
 }
 
 void	create_processes(t_pipe pipex, int i)
@@ -111,8 +110,6 @@ void	create_processes(t_pipe pipex, int i)
 	if (!(ft_stdin_file_2(&pipex, 0)))
 		return ;
 	ft_stdout_file_2(&pipex, pipex.procecess_num - 1);
-	if (pipex.exe[0].heredoc == 1 && pipex.exe[0].c_split == NULL)
-		pipex.exe[0].c_split = ft_split_minishell("cat");
 	while (++i < pipex.procecess_num)
 	{
 		pipex.pid[i] = fork();
@@ -126,12 +123,12 @@ void	create_processes(t_pipe pipex, int i)
 			pipex.bin = get_bin_path(g_mini.env, pipex.exe[i].c_split[0]);
 			if (access(pipex.bin, X_OK) == -1)
 				g_mini.last_error = 127;
+			else if (ft_strcmp(pipex.exe[i].c_split[0], "expr"))
+				g_mini.last_error = 0;
 			free(pipex.bin);
 		}
 	}
+	check_errors(pipex, -1, 0, 1);
 	close_father(&pipex);
-	wait (0);
-	unlink("heredoc_tmp");
-	free_processes(&pipex);
 	g_mini.pid = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:25:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 14:10:02 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:06:16 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,6 @@ void	close_father(t_pipe *pipex)
 		if (wait(&status) <= 0)
 			break ;
 	}
+	wait (0);
+	unlink("heredoc_tmp");
 }

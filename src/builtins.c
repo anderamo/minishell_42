@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/30 19:53:01 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:23:52 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ t_cmd	*new_cmd(void)
 	cmd->dollar_fail = 0;
 	cmd->args = NULL;
 	cmd->line = ft_calloc(BUFF, sizeof(char));
-    if (!cmd->line)
-    {
-        free(cmd->line);
-        return (NULL);
-    }
+	if (!cmd->line)
+	{
+		free(cmd->line);
+		return (NULL);
+	}
 	return (cmd);
 }
 
@@ -55,6 +55,7 @@ int	ft_dollar(t_cmd *cmd, char *src, char c, int j)
 		if (src[j] == '?')
 		{
 			write(1, g_mini.error, ft_strlen(g_mini.error));
+			g_mini.last_error = 0;
 			return (2);
 		}
 		else
@@ -67,11 +68,8 @@ int	ft_dollar(t_cmd *cmd, char *src, char c, int j)
 			return (env_len(src, j));
 		}
 	}
-	else
-	{
-		write(1, "$", 1);
-		return (0);
-	}
+	write(1, "$", 1);
+	return (0);
 }
 
 void	ft_echo(char **commands, t_cmd *cmd, size_t i)
@@ -85,8 +83,8 @@ void	ft_echo(char **commands, t_cmd *cmd, size_t i)
 	}
 	while (ft_array_size(commands) > i)
 	{
-		j = 0;
-		while ((int)ft_strlen(commands[i]) > j && commands[i][j])
+		j = -1;
+		while ((int)ft_strlen(commands[i]) > ++j && commands[i][j])
 			j = ft_copy_quote(commands, cmd, i, j);
 		if (ft_array_size(commands) - 1 != i && cmd->dollar_fail == 0)
 			write (1, " ", 1);

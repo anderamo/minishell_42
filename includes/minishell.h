@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:53:19 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:00:29 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int		check_if_exits(t_pipe pipex, int a);
 char	**ft_frlloc_int(int **tab, int size);
 void	signal_proc(void);
 int		builtins(char **commands);
-t_cmd   *new_cmd(void);
+t_cmd	*new_cmd(void);
 void	ft_cd_old_pwd(int i);
 void	ft_cd(char *next_path, int i);
-void	pipex(char **argv, int count, int a, int index);
+void	pipex(char **argv, t_pipe pipex, int a, int index);
 char	*readline(const char *prompt);
 void	ft_heredoc(char *del);
 void	ft_action(int sig);
@@ -108,6 +108,7 @@ int		get_path(char **envp);
 void	create_processes(t_pipe pipex, int i);
 void	ft_heredoc(char *del);
 void	child(t_pipe pipex, char **envp, int i, int j);
+void	check_errors(t_pipe pipex, int i, int j, int count);
 int		pipex_3(t_pipe *pipex, int index, int a);
 int		env_len(const char *str, int pos);
 int		ft_stdin_file(t_pipe *pipex, int i);

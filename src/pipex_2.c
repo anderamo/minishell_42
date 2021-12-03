@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:25:18 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/27 12:49:05 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:03:17 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,48 @@ t_pipe	init_pipex(int a, int i)
 		if (pipe(pipex.pipes[i]) == -1)
 			exit (0);
 	return (pipex);
+}
+
+int	errors_expr(t_pipe pipex, int i, int *c, int j)
+{
+	if (!ft_strcmp(pipex.exe[i].c_split[j], "$?") && j % 2 != 0)
+	{
+		if (g_mini.last_error == 0 && *c == 1)
+			g_mini.last_error = 1;
+		else if (g_mini.last_error != 0 && *c == 1)
+			g_mini.last_error = 0;
+		*c = *c + 1;
+	}
+	else if (!ft_isnumber(pipex.exe[i].c_split[j]) && j % 2 != 0)
+	{
+		g_mini.last_error = 2;
+		return (-1);
+	}
+	if (j % 2 == 0 && !ft_strchr("+-*/%=", pipex.exe[i].c_split[j][0]))
+	{
+		g_mini.last_error = 2;
+		return (-1);
+	}
+	return (1);
+}
+
+void	check_errors(t_pipe pipex, int i, int j, int c)
+{
+	while (++i < pipex.procecess_num)
+	{
+		j = 1;
+		while ((int)ft_array_size(pipex.exe[i].c_split) > j)
+		{
+			if (!ft_strcmp(pipex.exe[i].c_split[0], "expr"))
+			{
+				if (errors_expr(pipex, i, &c, j) == -1)
+					break ;
+			}
+			j++;
+		}
+		if (j % 2 != 0)
+			g_mini.last_error = 2;
+	}
 }
 
 int	pipex_4(t_pipe *pipex, int po)

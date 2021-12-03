@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/26 18:19:26 by migarcia         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:24:39 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,30 +113,30 @@ int	pipex_2(t_pipe *pipex, int i, int a)
 	return (i);
 }
 
-void	pipex(char **argv, int count, int a, int index)
+void	pipex(char **argv, t_pipe pipex, int a, int index)
 {
-	t_pipe	pipex;
-
-	pipex = init_pipex(count, -1);
 	while (argv[++a])
 	{
 		pipex.com = ft_split_minishell(argv[a]);
 		if (!pipex.com)
-			return (free_proc(&pipex));
-		index = 0;
-		pipex.tomas = NULL;
-		while (ft_arraybilen(pipex.com) > index && pipex.com[index])
+			return ;
+		if (!builtins_no_pipe(argv[a], pipex.com))
 		{
-			index = pipex_2(&pipex, index, a);
-			if (index == -1)
-				return ;
-			index = pipex_3(&pipex, index, a);
-			if (index == -1)
-				return ;
-			index = pipex_4(&pipex, index);
+			index = 0;
+			pipex.tomas = NULL;
+			while (ft_arraybilen(pipex.com) > index && pipex.com[index])
+			{
+				index = pipex_2(&pipex, index, a);
+				if (index == -1)
+					return ;
+				index = pipex_3(&pipex, index, a);
+				if (index == -1)
+					return ;
+				index = pipex_4(&pipex, index);
+			}
+			pipex.exe[a].c_split = ft_split_minishell(pipex.tomas);
+			free_pipex(&pipex);
 		}
-		pipex.exe[a].c_split = ft_split_minishell(pipex.tomas);
-		free_pipex(&pipex);
 	}
 	if (pipex.exe[0].c_split != NULL || pipex.exe[0].heredoc == 1)
 		create_processes(pipex, -1);
