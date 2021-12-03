@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:45:25 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:39:25 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/03 18:13:38 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ int	get_path(char **envp)
 	char	**split;
 
 	i = 0;
-	while (1)
+	while ((int)ft_array_size(envp) > i)
 	{
 		split = ft_split(envp[i], '=');
 		if (!strcmp(split[0], "PATH"))
-			break ;
+		{
+			ft_frlloc(split);
+			return (i);
+		}
 		ft_frlloc(split);
 		i++;
 	}
-	ft_frlloc(split);
-	return (i);
+	return (-1);
 }
 
 char	*get_bin_path(char **envp, char *command)
@@ -40,6 +42,8 @@ char	*get_bin_path(char **envp, char *command)
 	if (!ft_strncmp(command, "/", 1))
 		return (ft_strdup(command));
 	i = get_path(envp);
+	if (i == -1)
+		return (NULL);
 	j = -1;
 	path_split = ft_split(envp[i] + 5, ':');
 	while (path_split[++j])
