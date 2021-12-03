@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:25:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/01 19:06:16 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:41:14 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	close_father(t_pipe *pipex)
 
 	i = 0;
 	j = 0;
+	check_errors(*pipex, -1, 0, 1);
 	while (j < pipex->procecess_num + 1)
 	{
 		close(pipex->pipes[j][1]);
@@ -92,7 +93,8 @@ void	close_father(t_pipe *pipex)
 			close(pipex->pipes[j][0]);
 			j++;
 	}
-	if (!ft_strcmp(pipex->exe[i].c_split[0], "$?"))
+	if (pipex->exe[i].c_split != NULL
+		&& !ft_strcmp(pipex->exe[i].c_split[0], "$?"))
 		g_mini.last_error = 127;
 	while (1)
 	{
@@ -101,4 +103,5 @@ void	close_father(t_pipe *pipex)
 	}
 	wait (0);
 	unlink("heredoc_tmp");
+	g_mini.pid = 0;
 }

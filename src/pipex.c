@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:24:39 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:41:15 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,5 @@ void	pipex(char **argv, t_pipe pipex, int a, int index)
 			free_pipex(&pipex);
 		}
 	}
-	if (pipex.exe[0].c_split != NULL || pipex.exe[0].heredoc == 1)
-		create_processes(pipex, -1);
+	create_processes(pipex, -1);
 }

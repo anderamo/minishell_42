@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:39:33 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:46:42 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,19 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 void	child(t_pipe pipex, char **envp, int i, int j)
 {
 	close_child(&pipex, i, j);
-	pipex.exe[i].c_split[0] = ft_str_tolower(pipex.exe[i].c_split[0]);
-	pipex.bin = get_bin_path(envp, pipex.exe[i].c_split[0]);
-	if (!builtins(pipex.exe[i].c_split))
+	if (pipex.exe[i].c_split != NULL)
 	{
-		delete_commas(&pipex, i, j);
-		if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
-			printf ("bash: %s: command not found\n", pipex.exe[i].c_split[0]);
+		pipex.exe[i].c_split[0] = ft_str_tolower(pipex.exe[i].c_split[0]);
+		pipex.bin = get_bin_path(envp, pipex.exe[i].c_split[0]);
+		if (!builtins(pipex.exe[i].c_split))
+		{
+			delete_commas(&pipex, i, j);
+			if (execve(pipex.bin, pipex.exe[i].c_split, envp) == -1)
+				printf ("bash: %s: command not found\n",
+					pipex.exe[i].c_split[0]);
+		}
+		free(pipex.bin);
 	}
-	free(pipex.bin);
 	g_mini.last_error = 127;
 	exit (127);
 }
@@ -120,15 +124,16 @@ void	create_processes(t_pipe pipex, int i)
 			child(pipex, g_mini.env, i, 0);
 		else
 		{
-			pipex.bin = get_bin_path(g_mini.env, pipex.exe[i].c_split[0]);
-			if (access(pipex.bin, X_OK) == -1)
-				g_mini.last_error = 127;
-			else if (ft_strcmp(pipex.exe[i].c_split[0], "expr"))
-				g_mini.last_error = 0;
-			free(pipex.bin);
+			if (pipex.exe[i].c_split != NULL)
+			{
+				pipex.bin = get_bin_path(g_mini.env, pipex.exe[i].c_split[0]);
+				if (access(pipex.bin, X_OK) == -1)
+					g_mini.last_error = 127;
+				else if (ft_strcmp(pipex.exe[i].c_split[0], "expr"))
+					g_mini.last_error = 0;
+				free(pipex.bin);
+			}
 		}
 	}
-	check_errors(pipex, -1, 0, 1);
 	close_father(&pipex);
-	g_mini.pid = 0;
 }
