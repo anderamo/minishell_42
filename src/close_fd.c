@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:25:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:14 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:03:33 by migarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	close_father(t_pipe *pipex)
 
 	i = 0;
 	j = 0;
-	check_errors(*pipex, -1, 0, 1);
+	check_errors(*pipex, 0, 0, 1);
 	while (j < pipex->procecess_num + 1)
 	{
 		close(pipex->pipes[j][1]);
