@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:25:18 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:03:17 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:50:13 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	errors_expr(t_pipe pipex, int i, int *c, int j)
 	}
 	else if (!ft_isnumber(pipex.exe[i].c_split[j]) && j % 2 != 0)
 	{
+		printf("entra\n");
 		g_mini.last_error = 2;
 		return (-1);
 	}
 	if (j % 2 == 0 && !ft_strchr("+-*/%=", pipex.exe[i].c_split[j][0]))
 	{
+		printf("entra\n");
 		g_mini.last_error = 2;
 		return (-1);
 	}
@@ -75,7 +77,7 @@ void	check_errors(t_pipe pipex, int i, int j, int c)
 			}
 			j++;
 		}
-		if (j % 2 != 0)
+		if (j % 2 != 0 && !ft_strcmp(pipex.exe[i].c_split[0], "expr"))
 			g_mini.last_error = 2;
 	}
 }
