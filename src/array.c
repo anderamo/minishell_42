@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamorin- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:54:38 by migarcia          #+#    #+#             */
-/*   Updated: 2021/11/17 09:03:49 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:05:44 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ int	ft_frlloc(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	if (!tab)
+		return (0);
+	while (tab[i] != NULL)
 	{
-		free(tab[i]);
+		if (tab[i])
+			free(tab[i]);
 		i++;
 	}
 	free(tab);

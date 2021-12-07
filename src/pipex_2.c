@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:25:18 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/07 12:48:27 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:12:20 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_pipe	init_pipex(int a, int i)
 	pipex.pipes = (int **)malloc((pipex.procecess_num + 1) * sizeof(int *));
 	pipex.exe = (t_exe *)malloc((pipex.procecess_num + 1) * sizeof(t_exe));
 	pipex.pid = (int *)malloc((pipex.procecess_num) * sizeof(int));
-	pipex.exe[0].c_split = NULL;
 	pipex.stdin_file = NULL;
 	pipex.stdout_file = NULL;
 	while (++i < pipex.procecess_num + 1)
 	{
+		pipex.exe[i].c_split = NULL;
 		pipex.pipes[i] = (int *)malloc((2) * sizeof(int));
 		pipex.exe[i].stdin_file = NULL;
 		pipex.exe[i].stdout_file = NULL;

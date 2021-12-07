@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:11:42 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:43:08 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 13:38:10 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_processes(t_pipe *pipex)
 	free(pipex->pid);
 	while (++i < pipex->procecess_num)
 	{
-		if (pipex->exe[i].c_split)
+		if (pipex->exe[i].c_split != NULL)
 			ft_frlloc(pipex->exe[i].c_split);
 	}
 	ft_frlloc_int(pipex->pipes, pipex->procecess_num + 1);
