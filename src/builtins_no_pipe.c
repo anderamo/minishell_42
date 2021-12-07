@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/12/06 19:45:45 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:48:42 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	ft_export(char *str, int i, int j)
 	char	**split;
 	t_cmd	*cmd;
 
+	if (!str[1])
+	{
+		printf("ERROR: Wrong export format\n");
+        g_mini.last_error = 1;
+	}
 	if (str[1])
 	{
 		cmd = new_cmd();
@@ -56,9 +61,8 @@ void	ft_export(char *str, int i, int j)
 		}
 		free(cmd->line);
 		free(cmd);
+		g_mini.last_error = 0;
 	}
-	else
-		printf("ERROR: Wrong export format\n");
 }
 
 char	**ft_unset(char *str)
@@ -116,7 +120,15 @@ int	builtins_no_pipe(char *line, char **commands)
 			|| !ft_strncmp(commands[0], "\"", 1))
 			ft_export(line, 0, 0);
 		else
-			ft_export(commands[1], 0, 0);
+		{
+			if (!commands[1])
+			{
+				printf("ERROR: Wrong export format\n");
+				g_mini.last_error = 1;
+			}
+			else
+				ft_export(commands[1], 0, 0);
+		}
 		return (ft_frlloc(commands));
 	}
 	if (!ft_strcmp(commands[0], "unset"))

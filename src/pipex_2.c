@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 19:25:18 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/06 20:21:28 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:48:27 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ t_pipe	init_pipex(int a, int i)
 	return (pipex);
 }
 
+int	pipex_4(t_pipe *pipex, int po)
+{
+	if (ft_arraybilen(pipex->com) > po && ft_strcmp(pipex->com[po]
+			, "<") && ft_strcmp(pipex->com[po], ">")
+		&& ft_strcmp(pipex->com[po], "<<")
+		&& ft_strcmp(pipex->com[po], ">>"))
+		pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po]);
+	else
+		return (po);
+	while (ft_arraybilen(pipex->com) > po + 1 && ft_strcmp(pipex->com[po + 1]
+			, "<") && ft_strcmp(pipex->com[po + 1], ">")
+		&& ft_strcmp(pipex->com[po + 1], "<<")
+		&& ft_strcmp(pipex->com[po + 1], ">>"))
+	{
+		pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po + 1]);
+		po++;
+	}
+	po++;
+	return (po);
+}
+
+/*
 int	errors_expr(t_pipe pipex, int i, int *c, int j)
 {
 	if (!ft_strcmp(pipex.exe[i].c_split[j], "$?") && j % 2 != 0)
@@ -53,7 +75,9 @@ int	errors_expr(t_pipe pipex, int i, int *c, int j)
 		g_mini.last_error = 2;
 		return (-1);
 	}
-	if (j % 2 == 0 && !ft_strchr("+-*/%=", pipex.exe[i].c_split[j][0]))
+	*/
+	//if (j % 2 == 0 && !ft_strchr("+-*/%=", pipex.exe[i].c_split[j][0]))
+	/*
 	{
 		g_mini.last_error = 2;
 		return (-1);
@@ -108,28 +132,8 @@ void	check_errors(t_pipe pipex, int i, int j, int c)
 					j++;
 				}
 			}
-			i++;
+		i++;
 		}
 	}
 }
-
-int	pipex_4(t_pipe *pipex, int po)
-{
-	if (ft_arraybilen(pipex->com) > po && ft_strcmp(pipex->com[po]
-			, "<") && ft_strcmp(pipex->com[po], ">")
-		&& ft_strcmp(pipex->com[po], "<<")
-		&& ft_strcmp(pipex->com[po], ">>"))
-		pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po]);
-	else
-		return (po);
-	while (ft_arraybilen(pipex->com) > po + 1 && ft_strcmp(pipex->com[po + 1]
-			, "<") && ft_strcmp(pipex->com[po + 1], ">")
-		&& ft_strcmp(pipex->com[po + 1], "<<")
-		&& ft_strcmp(pipex->com[po + 1], ">>"))
-	{
-		pipex->tomas = ft_strjoin_space(pipex->tomas, pipex->com[po + 1]);
-		po++;
-	}
-	po++;
-	return (po);
-}
+*/
