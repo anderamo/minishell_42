@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/02 17:00:29 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 20:36:01 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*ft_strjoin3(char *a, char *b, char *c);
 int		ft_print_env(void);
 char	*find_env(char *src, int i);
 void	ft_pwd(int print);
+void	ft_export(char *str, int i, int j);
 int		ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j);
 int		ft_dollar(t_cmd *cmd, char *src, char c, int j);
 int		parse_arguments(t_cmd *cmd);
@@ -121,5 +122,6 @@ t_pipe	init_pipex(int a, int i);
 int		pipex_4(t_pipe *pipex, int po);
 void	close_child(t_pipe *pipex, int i, int j);
 void	close_father(t_pipe *pipex);
+void	waitpid_last_error(t_pipe pipex, int i);
 
 #endif

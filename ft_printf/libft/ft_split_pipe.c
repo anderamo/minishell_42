@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:02:38 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/11/29 09:29:10 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:28:02 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 static int	isquote(char const *s, int i)
 {
 	int	index;
-	int	quote;
+	int	quote1;
+	int	quote2;
 
 	index = 0;
-	quote = 0;
+	quote1 = 0;
+	quote2 = 0;
 	while (index < i)
 	{
 		if (s[index] == '\"')
-			quote++;
+			quote1++;
+		if (s[index] == '\'')
+			quote2++;
 		index++;
 	}
-	if (quote % 2 != 0 && quote != 0)
-	{
+	if (quote1 % 2 != 0 && quote1 != 0)
 		return (-1);
-	}
+	if (quote2 % 2 != 0 && quote2 != 0)
+		return (-1);
 	return (1);
 }
 

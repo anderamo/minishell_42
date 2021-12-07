@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/03 17:46:42 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 20:58:13 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	child(t_pipe pipex, char **envp, int i, int j)
 		}
 		free(pipex.bin);
 	}
-	g_mini.last_error = 127;
 	exit (127);
 }
 

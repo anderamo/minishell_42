@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:25:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/03 17:41:14 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:24:35 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_stdin_child(t_pipe *pipex, int i)
 					pipex->exe[i].stdin_file);
 				free(pipex->exe[i].stdin_file);
 				g_mini.last_error = 1;
-				return (0);
+				exit (1);
 			}
 			free(pipex->exe[i].stdin_file);
 		}
@@ -81,11 +81,9 @@ void	close_father(t_pipe *pipex)
 {
 	int	j;
 	int	i;
-	int	status;
 
 	i = 0;
 	j = 0;
-	check_errors(*pipex, -1, 0, 1);
 	while (j < pipex->procecess_num + 1)
 	{
 		close(pipex->pipes[j][1]);
@@ -96,11 +94,9 @@ void	close_father(t_pipe *pipex)
 	if (pipex->exe[i].c_split != NULL
 		&& !ft_strcmp(pipex->exe[i].c_split[0], "$?"))
 		g_mini.last_error = 127;
-	while (1)
-	{
-		if (wait(&status) <= 0)
-			break ;
-	}
+	j = -1;
+	while (++j < pipex->procecess_num)
+		waitpid_last_error(*pipex, j);
 	wait (0);
 	unlink("heredoc_tmp");
 	g_mini.pid = 0;

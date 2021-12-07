@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 18:51:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/01 15:58:57 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/06 19:57:51 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	change_old_pwd(void)
 	int		i;
 	char	**split;
 	char	*pwd;
+	char	*absol;
 
-	i = 0;
-	while (1)
+	i = -1;
+	while (g_mini.env[++i])
 	{
 		split = ft_split(g_mini.env[i], '=');
 		if (!ft_strcmp(split[0], "OLDPWD"))
@@ -28,12 +29,16 @@ void	change_old_pwd(void)
 			pwd = getcwd(NULL, 0);
 			g_mini.env[i] = ft_strjoin_no_free("OLDPWD=", pwd);
 			free(pwd);
-			break ;
+			ft_frlloc(split);
+			return ;
 		}
 		ft_frlloc(split);
-		i++;
 	}
-	ft_frlloc(split);
+	pwd = getcwd(NULL, 0);
+	absol = ft_strjoin_no_free("OLDPWD=", pwd);
+	ft_export(absol, 0, 0);
+	free(absol);
+	free(pwd);
 }
 
 void	ft_cd_relative(char *next_path, int i, size_t len)
@@ -86,7 +91,7 @@ void	ft_cd_old_pwd(int i)
 	while (g_mini.env[++i])
 	{
 		split = ft_split(g_mini.env[i], '=');
-		if (!strcmp(split[0], "OLDPWD"))
+		if (!ft_strcmp(split[0], "OLDPWD"))
 			break ;
 		ft_frlloc(split);
 	}
@@ -97,6 +102,7 @@ void	ft_cd_old_pwd(int i)
 
 void	ft_cd(char *next_path, int i)
 {
+	g_mini.last_error = 0;
 	if (!next_path || !ft_strcmp(next_path, "~"))
 		ft_cd_home(i);
 	else if (!ft_strncmp(next_path, "~/", 2))
@@ -105,12 +111,13 @@ void	ft_cd(char *next_path, int i)
 		ft_cd_old_pwd(i);
 	else
 	{
-		change_old_pwd();
 		if (chdir(next_path))
 		{
 			perror("chdir");
 			g_mini.last_error = 1;
 		}
+		else
+			change_old_pwd();
 	}
 	ft_pwd(1);
 }
