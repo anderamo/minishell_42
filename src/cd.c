@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 18:51:33 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/06 19:57:51 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/07 20:13:25 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	change_old_pwd(void)
 	}
 	pwd = getcwd(NULL, 0);
 	absol = ft_strjoin_no_free("OLDPWD=", pwd);
-	ft_export(absol, 0, 0);
+	ft_export(absol);
 	free(absol);
 	free(pwd);
 }
@@ -111,13 +111,12 @@ void	ft_cd(char *next_path, int i)
 		ft_cd_old_pwd(i);
 	else
 	{
+		change_old_pwd();
 		if (chdir(next_path))
 		{
 			perror("chdir");
 			g_mini.last_error = 1;
 		}
-		else
-			change_old_pwd();
 	}
 	ft_pwd(1);
 }

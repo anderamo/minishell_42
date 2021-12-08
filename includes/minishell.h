@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:46:00 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:13:18 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/08 08:49:24 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,15 @@ size_t	ft_array_size(char **arr);
 int		ft_frlloc(char **tab);
 void	ft_frlloc_n(char **tab, size_t n);
 void	free_proc(t_pipe *pipex);
+int		isquote(char const *s, int i);
 int		ft_setenv(char *name, char *value, int replace);
 char	*ft_getenv(char *name);
 char	*ft_strjoin3(char *a, char *b, char *c);
 int		ft_print_env(void);
 char	*find_env(char *src, int i);
 void	ft_pwd(int print);
-void	ft_export(char *str, int i, int j);
+int		check_next_dollar(char **commands, size_t i, int j);
+void	ft_export(char *str);
 int		ft_copy_quote(char **commands, t_cmd *cmd, size_t i, int j);
 int		ft_dollar(t_cmd *cmd, char *src, char c, int j);
 int		parse_arguments(t_cmd *cmd);

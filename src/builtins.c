@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/12/02 19:23:52 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/08 08:49:34 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	ft_echo(char **commands, t_cmd *cmd, size_t i)
 		j = -1;
 		while ((int)ft_strlen(commands[i]) > ++j && commands[i][j])
 			j = ft_copy_quote(commands, cmd, i, j);
-		if (ft_array_size(commands) - 1 != i && cmd->dollar_fail == 0)
+		if (ft_array_size(commands) - 1 != i && cmd->dollar_fail == 0
+			&& check_next_dollar(commands, i + 1, 0) == 1)
 			write (1, " ", 1);
 		i++;
 	}

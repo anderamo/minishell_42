@@ -6,85 +6,79 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:40:35 by migarcia          #+#    #+#             */
-/*   Updated: 2021/12/07 12:48:42 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/08 09:08:52 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_quote(char **commands, t_cmd *cmd, size_t i, int j)
+void	ft_quote(char **str, t_cmd *cmd)
 {
 	char	c;
 
-	if (commands[i][j] == '\'' || commands[i][j] == '\"')
+	if (**str == '\'' || **str == '\"')
 	{
-		c = commands[i][j];
-		j++;
-		while ((int)ft_strlen(commands[i]) > j)
+		c = **str;
+		*str = *str + 1;
+		while (**str != '\0' && **str != c)
 		{
-			if (commands[i][j] != c)
-				ft_strncat(cmd->line, &commands[i][j], 1);
-			if ((int)ft_strlen(commands[i]) > j && commands[i][j] == c)
-				j++;
-			j++;
+			ft_strncat(cmd->line, *str, 1);
+			*str = *str + 1;
 		}
 	}
-	return (j);
 }
 
-void	ft_export(char *str, int i, int j)
+void	ft_export(char *str)
 {
 	char	**split;
 	t_cmd	*cmd;
 
-	if (!str[1])
+	if (ft_strchr(str, '='))
 	{
-		printf("ERROR: Wrong export format\n");
-        g_mini.last_error = 1;
-	}
-	if (str[1])
-	{
+		if (isquote(str, ft_strlen(str) - ft_strlen(ft_strchr(str, '='))) == -1)
+			return ;
 		cmd = new_cmd();
-		if (ft_strchr(str, '='))
+		split = ft_split(str, '=');
+		while (*str != '=')
+			str++;
+		while (*(++str) != '\0')
 		{
-			split = ft_split(str, '=');
-			while ((int)ft_array_size(split) > ++i)
-			{
-				j = 0;
-				if (split[i][j] == '\'' || split[i][j] == '\"')
-					j = ft_quote(split, cmd, i, j);
-				else
-					ft_strncat(cmd->line, split[i], ft_strlen(split[i]));
-			}
-			ft_setenv(split[0], cmd->line, 1);
-			ft_frlloc(split);
+			if (*str == '\'' || *str == '\"')
+				ft_quote(&str, cmd);
+			else
+				ft_strncat(cmd->line, str, 1);
 		}
+		ft_setenv(split[0], cmd->line, 1);
+		ft_frlloc(split);
 		free(cmd->line);
 		free(cmd);
-		g_mini.last_error = 0;
 	}
+	g_mini.last_error = 0;
 }
 
-char	**ft_unset(char *str)
+char	**ft_unset(char *str, int count, size_t i, int j)
 {
 	char		**new_env;
-	size_t		i;
-	int			j;
 
 	new_env = malloc(sizeof(char *) * (ft_array_size(g_mini.env)));
 	if (!new_env)
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (i < ft_array_size(g_mini.env))
 	{
 		if (!ft_strncmp(g_mini.env[i], str, ft_strlen(str)))
 			i++;
+		else
+			count++;
 		if (!g_mini.env[i])
 			break ;
 		new_env[j] = ft_strdup(g_mini.env[i]);
 		i++;
 		j++;
+	}
+	if (count == (int)ft_array_size(g_mini.env))
+	{
+		ft_frlloc_n(new_env, i);
+		return (NULL);
 	}
 	new_env[j] = NULL;
 	return (new_env);
@@ -94,47 +88,41 @@ int	ft_buil_unset(char *command)
 {
 	char	**new_env;
 
-	if (!ft_strcmp(command, "PWD"))
-	{
-		printf("Error: impossible to unset 'PWD'.\n");
+	g_mini.last_error = 0;
+	if (!command)
 		return (1);
-	}
-	new_env = ft_unset(command);
+	new_env = ft_unset(command, 0, 0, 0);
 	if (!new_env)
 		return (1);
 	ft_frlloc(g_mini.env);
 	g_mini.env = new_env;
-	return (1);
+	return (0);
 }
 
-int	builtins_no_pipe(char *line, char **commands)
+int	builtins_no_pipe(char *line, char **com)
 {
-	if (!ft_strcmp(commands[0], "cd"))
+	if (!ft_strcmp(com[0], "cd"))
 	{
-		ft_cd(commands[1], -1);
-		return (ft_frlloc(commands));
+		ft_cd(com[1], -1);
+		return (ft_frlloc(com));
 	}
-	if (!ft_strcmp(commands[0], "export"))
+	if (!ft_strcmp(com[0], "export"))
 	{
-		if (!ft_strncmp(commands[0], "\'", 1)
-			|| !ft_strncmp(commands[0], "\"", 1))
-			ft_export(line, 0, 0);
-		else
+		if (!com[1] || !ft_strncmp(com[1], "=", 1))
 		{
-			if (!commands[1])
-			{
-				printf("ERROR: Wrong export format\n");
-				g_mini.last_error = 1;
-			}
-			else
-				ft_export(commands[1], 0, 0);
+			printf("ERROR: Wrong export format\n");
+			g_mini.last_error = 1;
 		}
-		return (ft_frlloc(commands));
+		else if (!ft_strncmp(com[0], "\'", 1) || !ft_strncmp(com[0], "\"", 1))
+			ft_export(line);
+		else
+			ft_export(com[1]);
+		return (ft_frlloc(com));
 	}
-	if (!ft_strcmp(commands[0], "unset"))
+	if (!ft_strcmp(com[0], "unset"))
 	{
-		ft_buil_unset(commands[1]);
-		return (ft_frlloc(commands));
+		ft_buil_unset(com[1]);
+		return (ft_frlloc(com));
 	}
 	return (0);
 }
