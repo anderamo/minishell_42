@@ -6,7 +6,7 @@
 /*   By: aamorin- <aamorin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:34:40 by aamorin-          #+#    #+#             */
-/*   Updated: 2021/12/06 20:58:13 by aamorin-         ###   ########.fr       */
+/*   Updated: 2021/12/09 13:05:48 by aamorin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	delete_commas(t_pipe *pipex, int i, int j)
 				pipex->exe[i].c_split[j]
 					= ft_strdup_free(ft_itoa(g_mini.last_error));
 			}
-			if (pipex->exe[i].c_split[j][0] == '\"'
-					|| pipex->exe[i].c_split[j][0] == '\'')
+			if (pipex->exe[i].c_split[j][0] == '\'' || (ft_strcmp(pipex->exe[i].c_split[0], "awk") && pipex->exe[i].c_split[j][0] == '\"'))
 			{
-				c = malloc(sizeof(char) * (2));
+				printf("entra");
+				c = calloc(2, sizeof(char));
 				c[0] = pipex->exe[i].c_split[j][0];
-				c[1] = '\0';
 				pipex->exe[i].c_split[j]
 					= ft_strtrim(pipex->exe[i].c_split[j], c);
+				free(c);
 			}
 		}
 	}
